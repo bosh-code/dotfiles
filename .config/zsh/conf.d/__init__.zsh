@@ -3,14 +3,18 @@
 #
 
 # Apps
-export EDITOR=nvim
+# User zed as the default editor
+# https://zed.dev/docs/reference/cli#-w---wait
+export EDITOR="zed --wait"
 export VISUAL=code
 export PAGER=less
 
 # Set the list of directories that cd searches.
 cdpath=(
   $XDG_PROJECTS_DIR(N/)
-  $XDG_PROJECTS_DIR/mattmc3(N/)
+  $XDG_WORK_DIR(N/)
+  $XDG_CONFIG_HOME(N/)
+  $XDG_LOCAL_DIR(N/)
   $cdpath
 )
 
@@ -19,14 +23,6 @@ path=(
   # core
   $prepath
   $path
-
-  # .local/share
-  $HOME/.local/share/nimble/bin(N)
-  $HOME/.local/share/cargo/bin(N)
-
-  # emacs
-  $HOME/.emacs.d/bin(N)
-  $XDG_CONFIG_HOME/emacs/bin(N)
 
   # keg only brew apps
   $HOMEBREW_PREFIX/opt/curl/bin(N)

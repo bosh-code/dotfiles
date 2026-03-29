@@ -7,7 +7,7 @@
 #
 
 mattmc3/zephyr path:plugins/environment
-mattmc3/zephyr path:plugins/homebrew conditional:is-macos
+mattmc3/zephyr path:plugins/homebrew
 
 #
 # History
@@ -40,7 +40,7 @@ $ZDOTDIR/lib/zsh-no-ps2.zsh
 # sindresorhus/pure kind:fpath
 # miekg/lean kind:fpath
 # mattmc3/zephyr path:plugins/prompt
-romkatv/powerlevel10k
+# romkatv/powerlevel10k
 
 #
 # Clipboard

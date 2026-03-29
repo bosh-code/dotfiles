@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+#
+# sites-cleanup - Remove stale ~/Sites subdirectories.
+#
+
+set -euo pipefail
+
+# Configure via environment if needed (useful for daemon setups like Pitchfork).
+SITES_DIR="${SITES_DIR:-$HOME/Sites}"
+RETENTION_DAYS="${RETENTION_DAYS:-30}"
+
+if [[ ! -d "$SITES_DIR" ]]; then
+  exit 0
+fi
+
+if ! [[ "$RETENTION_DAYS" =~ ^[0-9]+$ ]]; then
+  echo "RETENTION_DAYS must be a non-negative integer, got: $RETENTION_DAYS" >&2
+  exit 1
+fi
+
+find "$SITES_DIR" -mindepth 1 -maxdepth 1 -type d -mtime "+$RETENTION_DAYS" -print0 |
+  while IFS= read -r -d '' dir; do
+    echo "Deleting stale Sites directory: $dir"
+    rm -rf -- "$dir"
+  done

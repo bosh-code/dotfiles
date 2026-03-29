@@ -1,0 +1,18 @@
+[includeIf "gitdir:~/Work/**"]
+  path = ~/.local/share/git/work.gitconfig
+
+[include]
+  path = ~/.local/share/git/personal.gitconfig
+
+[include]
+  path = ./delta.gitconfig
+
+[hub]
+  protocol = ssh
+
+[core]
+  autocrlf = input
+  filemode = false
+
+[push]
+  autoSetupRemote = true

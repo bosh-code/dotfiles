@@ -5,3 +5,13 @@
 
 # Re-include select dirs
 !.config/zsh/
+!git/
+
+# Ignore compiled zsh files
+.zsh_plugins.zsh
+*.zwc
+*.zwc.old
+
+# Ignore generated files
+.config/zsh/.zsh_sessions/
+.config/zsh/completions/

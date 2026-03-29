@@ -47,13 +47,13 @@ link_file() {
 # rm -rf "$local/share"
 # link_path "$dotfiles/.local/share" "$local/share"
 
-link_file "$dotfiles/.zprofile" "$HOME/.zprofile"
+# link_file "$dotfiles/.zprofile" "$HOME/.zprofile"
 # link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
 # link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
 
-mkdir -p "$HOME/Developer/work/worktrees"
-mkdir -p "$HOME/Developer/personal/worktrees"
-mkdir -p "$HOME/Developer/other/worktrees"
+# Make dirs for work and personal projects
+mkdir -p "$HOME/Work/worktrees"
+mkdir -p "$HOME/Developer/worktrees"
 mkdir -p "$HOME/Sites"
 
 echo "Dotfiles setup complete, restart terminal"
