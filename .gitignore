@@ -6,6 +6,7 @@
 # Re-include select dirs
 !.config/zsh/
 !git/
+!.config/zed/
 
 # Ignore compiled zsh files
 .zsh_plugins.zsh
@@ -13,5 +14,10 @@
 *.zwc.old
 
 # Ignore generated files
+.config/zsh/.zsh_history
 .config/zsh/.zsh_sessions/
 .config/zsh/completions/
+
+# Zed
+.config/zed/prompts
+.config/zed/themes
