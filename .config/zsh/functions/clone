@@ -21,7 +21,7 @@ fi
 
 local giturl
 zstyle -s ':zsh_custom:plugin:git' default-site giturl || giturl=github.com
-local dest=${XDG_PROJECTS_HOME:-~/Projects}/$user/$repo
+local dest=${XDG_PROJECTS_HOME:-~/Developer}/$user/$repo
 
 if [[ ! -d $dest ]]; then
   git clone --recurse-submodules "git@${giturl}:${user}/${repo}.git" "$dest"

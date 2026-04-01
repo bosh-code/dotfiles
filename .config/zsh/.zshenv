@@ -12,6 +12,7 @@ export XDG_LOCAL_DIR=${XDG_LOCAL_DIR:-$HOME/.local}
 export XDG_DATA_HOME=${XDG_DATA_HOME:-$XDG_LOCAL_DIR/share}
 export XDG_STATE_HOME=${XDG_STATE_HOME:-$XDG_LOCAL_DIR/state}
 export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-$HOME/.xdg}
+export XDG_PROJECTS_HOME=${XDG_PROJECTS_HOME:-$HOME/Developer}
 export XDG_PROJECTS_DIR=${XDG_PROJECTS_DIR:-$HOME/Developer}
 export XDG_WORK_DIR=${XDG_WORK_DIR:-$HOME/Work}
 
@@ -34,4 +35,3 @@ export ZSH_COMPLETIONS_DIR="${ZSH_COMPLETIONS_DIR:-$ZSH_CONFIG_DIR/completions}"
     [[ -d "${(P)zdir}" ]] || mkdir -p -- "${(P)zdir}"
   done
 } __zsh_{config,user_data,cache,completions}_dir XDG_{CONFIG,CACHE,DATA,STATE}_HOME XDG_{RUNTIME,PROJECTS}_DIR
-  
