@@ -1,7 +1,23 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 #
 # .zstyles - zstyle settings for features/plugins that need them.
 #
+
+
+#
+# zsh options
+#
+# Share history across all sessions
+setopt SHARE_HISTORY
+# Append to history file immediately, not on shell exit
+setopt INC_APPEND_HISTORY
+# Remove older duplicate entries from history
+setopt HIST_IGNORE_ALL_DUPS
+# Don't record commands starting with a space
+setopt HIST_IGNORE_SPACE
+# Remove superfluous blanks from history
+setopt HIST_REDUCE_BLANKS
+
 
 #
 # Zephyr features
@@ -14,8 +30,15 @@ zstyle ':zephyr:plugin:*' 'use-cache' yes
 # Completions
 #
 
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
 zstyle ':zsh_custom:plugin:*' 'use-cache' no
 zstyle ':zsh_custom:plugin:completion' compstyle zshzoo
+
+# Use cache for completions
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR}/zcompcache"
 
 #
 # Editor

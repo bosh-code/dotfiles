@@ -1,0 +1,5 @@
+#! /usr/bin/env zsh
+
+mkdir -p -- "$1" &&
+    cd -P -- "$1" || return
+

@@ -56,6 +56,7 @@ ohmyzsh/ohmyzsh path:plugins/copyfile pin:76ffd9e22acc7f11ca501f03d6999adbdb9baa
 # Misc
 #
 
+ohmyzsh/ohmyzsh path:plugins/git pin:76ffd9e22acc7f11ca501f03d6999adbdb9baa61
 mattmc3/zephyr path:plugins/color
 mattmc3/zephyr path:plugins/directory
 mattmc3/zephyr path:plugins/utility
@@ -80,6 +81,7 @@ mattmc3/zman
 # macOS
 #
 
+zshzoo/macos conditional:is-macos
 mattmc3/zephyr path:plugins/macos conditional:is-macos
 
 #
@@ -88,6 +90,6 @@ mattmc3/zephyr path:plugins/macos conditional:is-macos
 
 zdharma-continuum/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
-zsh-users/zsh-history-substring-search post:bindkey-hss
+# zsh-users/zsh-history-substring-search post:bindkey-hss
 
 # vi: ft=properties

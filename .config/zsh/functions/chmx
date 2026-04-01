@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+#
+# chmx - quick chmod +x function, uses the first arg as the file to chmod +x, or defaults to all *.sh files in the current directory if no arg is given.
+#
+
+if [[ -n "$1" ]]; then
+  chmod +x "$1"
+else
+  chmod +x ./*.sh
+fi

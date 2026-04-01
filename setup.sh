@@ -47,7 +47,7 @@ link_file() {
 # rm -rf "$local/share"
 # link_path "$dotfiles/.local/share" "$local/share"
 
-# link_file "$dotfiles/.zprofile" "$HOME/.zprofile"
+# link_file "$dotfiles/.zprofile" "$HOME/.zprofile" # deleted
 # link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
 # link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
 

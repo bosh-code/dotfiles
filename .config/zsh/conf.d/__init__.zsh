@@ -5,9 +5,14 @@
 # Apps
 # User zed as the default editor
 # https://zed.dev/docs/reference/cli#-w---wait
+# Or VSCode. I keep switching...
 export EDITOR="zed --wait"
-export VISUAL=code
-export PAGER=less
+# export VISUAL=code
+export VISUAL=code-insiders
+export PAGER=bat
+
+# fzf
+source <(fzf --zsh)
 
 # Set the list of directories that cd searches.
 cdpath=(
@@ -26,9 +31,4 @@ path=(
 
   # keg only brew apps
   $HOMEBREW_PREFIX/opt/curl/bin(N)
-  $HOMEBREW_PREFIX/opt/go/libexec/bin(N)
-  $HOMEBREW_PREFIX/share/npm/bin(N)
-  $HOMEBREW_PREFIX/opt/ruby/bin(N)
-  $HOMEBREW_PREFIX/lib/ruby/gems/*/bin(N)
-  $HOME/.gem/ruby/*/bin(N)
 )
