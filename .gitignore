@@ -22,3 +22,9 @@
 # Zed
 .config/zed/prompts
 .config/zed/themes
+
+# Ignore 1password config file SSH known hosts files
+# The 1password file just contains the socket stuff and is generated.
+.ssh/1password.conf
+.ssh/known_hosts
+.ssh/known_hosts.old

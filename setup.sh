@@ -9,8 +9,8 @@ set -euo pipefail
 dotfiles="$(cd "$(dirname "$0")" && pwd)"
 echo "Dotfiles directory: $dotfiles"
 
-config="$HOME/.config"
-local="$HOME/.local"
+local=""
+ssh="$HOME/.ssh"
 
 # Install Homebrew
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -40,20 +40,24 @@ link_file() {
 }
 
 # Link config
-# rm -rf "$config"
+# rm -rf "$HOME/.config"
 # link_path "$dotfiles/.config" "$HOME"
 
 # Link local/share
-# rm -rf "$local/share"
-# link_path "$dotfiles/.local/share" "$local/share"
+# rm -rf "$HOME/.local/share"
+# link_path "$dotfiles/.local/share" "$HOME/.local/share"
+
+# Link .ssh
+rm -rf "$ssh"
+link_path "$dotfiles/.ssh" "$HOME"
 
 # link_file "$dotfiles/.zprofile" "$HOME/.zprofile" # deleted
 # link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
 # link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
 
 # Make dirs for work and personal projects
-mkdir -p "$HOME/Work/worktrees"
-mkdir -p "$HOME/Developer/worktrees"
-mkdir -p "$HOME/Sites"
+# mkdir -p "$HOME/Work/worktrees"
+# mkdir -p "$HOME/Developer/worktrees"
+# mkdir -p "$HOME/Sites"
 
 echo "Dotfiles setup complete, restart terminal"
