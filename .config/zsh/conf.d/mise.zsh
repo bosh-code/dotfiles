@@ -4,4 +4,4 @@ alias mpu="mp use"
 alias mpug="mpu -g"
 alias mpup="mp update"
 
-eval "$(mise activate zsh)"
+eval "$(mise activate --shims zsh)"
