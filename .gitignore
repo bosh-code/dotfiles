@@ -7,6 +7,7 @@
 !.config/zsh/
 !git/
 !.config/zed/
+!.config/ghostty/
 
 # Ignore compiled zsh files
 .zsh_plugins.zsh
