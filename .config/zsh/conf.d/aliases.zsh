@@ -18,19 +18,19 @@ alias gs="g sync" # fetch and pull
 alias ping='ping -c 5'
 alias grep="rg --exclude-dir={.git,.vscode}"
 
-# more ways to ls
 alias ~="cd ~"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias ls="eza --group-directories-first"
-alias l=ls
-alias la="ls -lAh"
-alias lsa=lsa
-alias lsi="la --icons"
-alias ll="lsi --git"
-alias llt="lsi --tree --git-ignore"
-alias ldot='ls -ld .*'
+
+# more ways to ls
+alias l="eza --group-directories-first --icons"
+alias ls="l"
+alias la="l -lAh"
+alias lsa=la
+alias ll="la --git"
+alias llt="la --tree --git-ignore"
+alias ldot='l -ld .*'
 
 # fix typos
 alias get=git
