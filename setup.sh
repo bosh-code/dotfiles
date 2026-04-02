@@ -5,17 +5,16 @@
 
 set -euo pipefail
 
+echo -e "Setting up dotfiles...\n"
+
 # This file should be in the root of the dotfiles dir
 dotfiles="$(cd "$(dirname "$0")" && pwd)"
 echo "Dotfiles directory: $dotfiles"
 
-local=""
-ssh="$HOME/.ssh"
-
 # Install Homebrew
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Install Homebrew packages.
+# TODO: setup brewfile - Install Homebrew packages.
 # brew bundle --file="$dotfiles/Brewfile"
 
 # Create symlinks
@@ -40,24 +39,27 @@ link_file() {
 }
 
 # Link config
-# rm -rf "$HOME/.config"
-# link_path "$dotfiles/.config" "$HOME"
+cp "$HOME/.config" "$HOME/.config-backup" -R
+rm -rf "$HOME/.config"
+link_path "$dotfiles/.config" "$HOME"
 
 # Link local/share
-# rm -rf "$HOME/.local/share"
-# link_path "$dotfiles/.local/share" "$HOME/.local/share"
+cp "$HOME/.local/share" "$HOME/.local/share-backup" -R
+rm -rf "$HOME/.local/share"
+link_path "$dotfiles/.local/share" "$HOME/.local/share"
 
 # Link .ssh
-rm -rf "$ssh"
+cp "$HOME/.ssh" "$HOME/.ssh-backup" -R
+rm -rf "$HOME/.ssh"
 link_path "$dotfiles/.ssh" "$HOME"
 
-# link_file "$dotfiles/.zprofile" "$HOME/.zprofile" # deleted
-# link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
-# link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
+# Link .zshenv and .zshrc
+link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
+link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
 
 # Make dirs for work and personal projects
-# mkdir -p "$HOME/Work/worktrees"
-# mkdir -p "$HOME/Developer/worktrees"
-# mkdir -p "$HOME/Sites"
+mkdir -p "$HOME/Work/worktrees"
+mkdir -p "$HOME/Developer/worktrees"
+mkdir -p "$HOME/Sites"
 
-echo "Dotfiles setup complete, restart terminal"
+echo -e "\nDotfiles setup complete, restart terminal or source ~/.zshrc\n"
