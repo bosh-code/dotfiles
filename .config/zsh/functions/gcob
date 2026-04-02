@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+#
+# gcob - git checkout -b, with some extra features
+#
+
+if [[ -z "$1" ]]; then
+  echo "Usage: gcob <branch-name>" >&2
+  return 1
+fi
+
+# First looks if the arg provided is a branch that exists locally or remote, if so, checks it out. If not, creates a new branch with that name and checks it out.
+if git rev-parse --verify --quiet "$1" >/dev/null; then
+  git checkout "$1"
+else
+  git checkout -b "$1"
+fi
