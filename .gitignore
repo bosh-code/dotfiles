@@ -13,6 +13,7 @@
 .zsh_plugins.zsh
 *.zwc
 *.zwc.old
+.zcompdump
 
 # Ignore generated files
 .config/zsh/.zsh_history

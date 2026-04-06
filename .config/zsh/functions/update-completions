@@ -1,17 +1,8 @@
 #!/usr/bin/env zsh
 
-function update_git_completions {
-  emulate -L zsh
-  # Download the git scripts
-  local giturl=https://raw.githubusercontent.com/git/git/master/contrib/completion
-  curl -fsSL $giturl/git-completion.zsh -o $ZSH_COMPLETIONS_DIR/_git
-}
-
 #  Mark dir if it doesnt exist, if it does, clear contents
 mkdir -p $ZSH_COMPLETIONS_DIR
 rm $ZSH_COMPLETIONS_DIR/*
-
-update_git_completions "$@"
 
 pitchfork completion zsh > $ZSH_COMPLETIONS_DIR/_pitchfork
 opencode completion > $ZSH_COMPLETIONS_DIR/_opencode
