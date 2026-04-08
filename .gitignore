@@ -4,9 +4,7 @@
 .config/*
 
 # Re-include select dirs
-!.config/zsh/
-!git/
-!.config/zed/
+!.config/cowfiles/
 !.config/ghostty/
 
 # Ignore compiled zsh files
