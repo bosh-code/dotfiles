@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 #
 # zoxide: Configure zoxide.
 #

@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 #
 # prompt: Set up the Zsh prompt system.
 #

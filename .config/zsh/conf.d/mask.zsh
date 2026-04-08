@@ -1,4 +1,8 @@
-# Masks the first three quarters of a string with asterisks.
+#!/usr/bin/env zsh
+#
+# mask - Mask a string with asterisks
+#
+
 function mask() {
   # This is a zsh thing.
   # shellcheck disable=SC2296

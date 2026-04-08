@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+#
+# bat - bat and bat-extras configuration
+#
+
 # Batman
 # https://github.com/eth-p/bat-extras/blob/master/doc/batman.md
 eval "$(batman --export-env)"

@@ -1,4 +1,7 @@
 #!/usr/bin/env zsh
+#
+# clone - clone a git repo with defaults
+#
 
 ##? clone - clone a git repo
 if [[ -z "$1" ]]; then

@@ -1,6 +1,6 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env bash
 #
-# Kill a process by name.
+# murder - Kill a process by name.
 #
 # Author:
 #   Larry Gordon

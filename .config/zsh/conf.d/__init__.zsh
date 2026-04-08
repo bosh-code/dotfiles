@@ -1,5 +1,6 @@
+#!/usr/bin/env zsh
 #
-# __init__: This runs prior to any other conf.d contents.
+# __init__ - Runs prior to any other conf.d contents.
 #
 
 # Apps

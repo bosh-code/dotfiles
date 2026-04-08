@@ -1,3 +1,8 @@
+#!/usr/bin/env zsh
+#
+# dotnet - .NET CLI tools and Zsh completion
+#
+
 # zsh parameter completion for the dotnet CLI
 # https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete
 

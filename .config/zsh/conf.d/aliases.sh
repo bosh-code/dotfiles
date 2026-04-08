@@ -1,5 +1,6 @@
+#!/usr/bin/env bash
 #
-# aliases
+# aliases - Common shell aliases
 #
 
 # References

@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+#
+# android - Android SDK environment setup
+#
+
 export ANDROID_HOME="$HOME/.android/sdk"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
 

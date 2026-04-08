@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # iwd: initial working directory
 #

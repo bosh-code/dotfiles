@@ -3,10 +3,15 @@
 # .zshrc - Zsh file loaded on interactive shell sessions.
 #
 
+# echo "[debug] ~/.config/zsh/.zshrc loaded at: $(date +%T.%N) with PID $$ and ZPROFRC=$ZPROFRC from $0" >&2
+
+# Check if .zshrc has already been loaded, if so, print a warning
+# [[ -v HAS_ZSHRC_BEEN_LOADED ]] && echo "[debug] Warning: .zshrc has already been loaded in this session. This may cause unexpected behavior." >&2
+# export HAS_ZSHRC_BEEN_LOADED=1
+
 # Profiling
 [[ "$ZPROFRC" -ne 1 ]] || zmodload zsh/zprof
 alias zprofrc="ZPROFRC=1 zsh"
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -39,10 +44,11 @@ unset _fndir
 # Create an amazing Zsh config using antidote plugins.
 source $ZSH_CONFIG_DIR/lib/antidote.zsh
 
-# Source conf.d.
-for _rc in $ZDOTDIR/conf.d/*.zsh; do
+# Source conf.d.* files (mix of .zsh and .sh)
+for _rc in $ZDOTDIR/conf.d/*; do
   # ignore files that begin with ~
   [[ "${_rc:t}" != '~'* ]] || continue
+  # echo "[debug] Sourcing $_rc"
   source "$_rc"
 done
 unset _rc

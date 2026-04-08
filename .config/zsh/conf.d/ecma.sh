@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # ecma: Everything bun, deno, node, js, ts related
 #
