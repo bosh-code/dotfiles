@@ -8,7 +8,9 @@
 !git/
 !.config/zed/
 !.config/ghostty/
-!.config/pnpm/
+!.config/git/
+!.config/zed/
+!.config/zsh/
 
 # Ignore compiled zsh files
 .zsh_plugins.zsh
