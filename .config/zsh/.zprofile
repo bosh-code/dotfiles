@@ -1,15 +1,9 @@
 #!/usr/bin/env zsh
+# echo "[debug] ~/.config/zsh/.zprofile loaded at: $(date +%T.%N) with PID $$ from $0" >&2
 
 # Initialize Homebrew
-if command -v brew &>/dev/null; then
+#if command -v brew &>/dev/null; then # we know brew is installed.
   eval "$(brew shellenv zsh)"
-fi
+#fi
 
 # eval "$(/opt/homebrew/bin/brew shellenv)" 
-
-# alias for hub, git with exta GH stuff
-eval "$(hub alias -s)"
-alias gs="hub sync"
-
-# Added by Toolbox App
-export PATH="$PATH:/Users/Ryan.Bosher/Library/Application Support/JetBrains/Toolbox/scripts"

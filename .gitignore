@@ -6,6 +6,9 @@
 # Re-include select dirs
 !.config/cowfiles/
 !.config/ghostty/
+!.config/git/
+!.config/zed/
+!.config/zsh/
 
 # Ignore compiled zsh files
 .zsh_plugins.zsh

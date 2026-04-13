@@ -1,4 +1,7 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env bash
+#
+# node - Node.js package manager aliases
+#
 
 alias y="yarn"
 alias ya="y add"

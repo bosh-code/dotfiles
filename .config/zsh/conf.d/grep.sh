@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+#
+# grep - Grep aliases using ripgrep
+#
+
 alias grep="rg"
 alias egrep="rg -e"
 alias fgrep="rg -F"

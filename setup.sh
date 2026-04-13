@@ -11,8 +11,13 @@ echo -e "Setting up dotfiles...\n"
 dotfiles="$(cd "$(dirname "$0")" && pwd)"
 echo "Dotfiles directory: $dotfiles"
 
-# Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Install Homebrew if not installed
+if ! command -v brew &> /dev/null; then
+  echo "Homebrew not found, installing..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  echo "Homebrew is already installed, skipping..."
+fi
 
 # TODO: setup brewfile - Install Homebrew packages.
 # brew bundle --file="$dotfiles/Brewfile"
@@ -39,23 +44,24 @@ link_file() {
 }
 
 # Link config
-cp "$HOME/.config" "$HOME/.config-backup" -R
-rm -rf "$HOME/.config"
+[ -d "$HOME/.config" ] && cp "$HOME/.config" "$HOME/.config-backup" -R
 link_path "$dotfiles/.config" "$HOME"
 
 # Link local/share
-cp "$HOME/.local/share" "$HOME/.local/share-backup" -R
-rm -rf "$HOME/.local/share"
+[ -d "$HOME/.local/share" ] && cp "$HOME/.local/share" "$HOME/.local/share-backup" -R
 link_path "$dotfiles/.local/share" "$HOME/.local/share"
 
 # Link .ssh
-cp "$HOME/.ssh" "$HOME/.ssh-backup" -R
-rm -rf "$HOME/.ssh"
+[ -d "$HOME/.ssh" ] && cp "$HOME/.ssh" "$HOME/.ssh-backup" -R
 link_path "$dotfiles/.ssh" "$HOME"
 
 # Link .zshenv and .zshrc
 link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
 link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
+
+# Link NuGet config
+mkdir -p "$dotfiles/.local/share/nuget"
+link_file "$HOME/.local/share/nuget/NuGet.Config" "$HOME/.nuget/NuGet/NuGet.Config"
 
 # Make dirs for work and personal projects
 mkdir -p "$HOME/Work/worktrees"

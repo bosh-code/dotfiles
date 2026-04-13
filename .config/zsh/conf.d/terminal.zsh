@@ -1,4 +1,7 @@
-# Terminal
+#!/usr/bin/env zsh
+#
+# terminal - Terminal-specific shell integration
+#
 
 case "${TERM_PROGRAM:l}" in
   apple_terminal)

@@ -1,4 +1,7 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env bash
+#
+# mkcd - Make a directory and cd into it.
+#
 
 mkdir -p -- "$1" &&
     cd -P -- "$1" || return

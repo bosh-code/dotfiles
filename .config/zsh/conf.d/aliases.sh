@@ -1,5 +1,6 @@
+#!/usr/bin/env bash
 #
-# aliases
+# aliases - Common shell aliases
 #
 
 # References
@@ -40,7 +41,8 @@ alias zz=exit
 
 # disk usage
 alias du='dust'
-alias biggest='du -s ./* | sort -nr | awk '\''{print $2}'\'' | xargs du -sh'
+# TODO: make this a function
+# alias biggest='du -s ./* | sort -nr | awk '\''{print $2}'\'' | xargs du -sh'
 alias dux='du -x --max-depth=1 | sort -n'
 alias dud='du -d 1 -h'
 alias duf='du -sh *'

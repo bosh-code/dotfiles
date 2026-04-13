@@ -3,6 +3,8 @@
 # .zshenv: Zsh environment file, loaded always.
 #
 
+# echo "[debug] ~/.config/zsh/.zshenv loaded at: $(date +%T.%N) with PID $$ from $0" >&2
+
 export ZDOTDIR=${ZDOTDIR:-$HOME/.config/zsh}
 
 # XDG
