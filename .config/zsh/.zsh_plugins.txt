@@ -8,6 +8,7 @@
 
 mattmc3/zephyr path:plugins/environment
 mattmc3/zephyr path:plugins/homebrew
+zsh-hooks/zsh-hooks
 
 #
 # History

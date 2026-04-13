@@ -1,19 +1,20 @@
 #!/usr/bin/env zsh
 #
-# dotnet - .NET CLI tools and Zsh completion
+# dotnet: Everything dotnet & nuget related
 #
-
-# zsh parameter completion for the dotnet CLI
-# https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete
 
 # Add .NET Core SDK tools
 if [[ -d $HOME/.dotnet/tools ]]; then
-  path+=($HOME/.dotnet/tools)
+  export PATH="$HOME/.dotnet/tools:$PATH"
 fi
 
 # nuget
 export NUGET_PACKAGES="${NUGET_PACKAGES:-$XDG_CACHE_HOME/NuGetPackages}"
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export TESTINGPLATFORM_TELEMETRY_OPTOUT=1
 
+# zsh parameter completion for the dotnet CLI
+# https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete
 _dotnet_zsh_complete()
 {
   local completions=("$(dotnet complete "$words")")

@@ -7,6 +7,9 @@
 [include]
   path = ./delta.gitconfig
 
+[init]
+  defaultBranch = main
+
 [hub]
   protocol = ssh
 
