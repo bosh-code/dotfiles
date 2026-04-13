@@ -59,6 +59,10 @@ link_path "$dotfiles/.ssh" "$HOME"
 link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
 link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
 
+# Link NuGet config
+mkdir -p "$dotfiles/.local/share/nuget"
+link_file "$HOME/.local/share/nuget/NuGet.Config" "$HOME/.nuget/NuGet/NuGet.Config"
+
 # Make dirs for work and personal projects
 mkdir -p "$HOME/Work/worktrees"
 mkdir -p "$HOME/Developer/worktrees"
