@@ -8,6 +8,10 @@ if [[ -d $HOME/.dotnet/tools ]]; then
   export PATH="$HOME/.dotnet/tools:$PATH"
 fi
 
+# Set root vars so things like pwsh can find dotnet
+export DOTNET_ROOT="$MISE_HOME/dotnet-root"
+export DOTNET_ROOT_ARM64="$MISE_HOME/dotnet-root"
+
 # nuget
 export NUGET_PACKAGES="${NUGET_PACKAGES:-$XDG_CACHE_HOME/NuGetPackages}"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
