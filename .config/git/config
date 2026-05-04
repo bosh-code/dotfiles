@@ -1,3 +1,7 @@
+#
+# Shared git config. Machine specific overrides should go in ~/.gitconfig.
+#
+
 [includeIf "gitdir:~/Work/**"]
   path = ~/.local/share/git/work.gitconfig
 
@@ -6,6 +10,9 @@
 
 [include]
   path = ./delta.gitconfig
+
+[user]
+  machine = computer # or server
 
 [init]
   defaultBranch = main
