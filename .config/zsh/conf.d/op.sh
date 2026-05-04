@@ -3,8 +3,10 @@
 # op - 1Password CLI integration for shell env
 #
 
-# source ~/.config/op/plugins.sh
-source "${XDG_DATA_HOME}/op/plugins.sh"
+# source ~/.config/op/plugins.sh if it exists
+if [[ -f "${XDG_DATA_HOME}/op/plugins.sh" ]]; then
+  source "${XDG_DATA_HOME}/op/plugins.sh"
+fi
 
 export OP_ENV="${XDG_DATA_HOME}/op/.env"
 

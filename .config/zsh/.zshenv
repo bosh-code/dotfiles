@@ -5,6 +5,10 @@
 
 # echo "[debug] ~/.config/zsh/.zshenv loaded at: $(date +%T.%N) with PID $$ from $0" >&2
 
+# export an OS var
+# Darwin or Linux
+export OS=${OS:-$(uname -s)}
+
 export ZDOTDIR=${ZDOTDIR:-$HOME/.config/zsh}
 
 # XDG
