@@ -18,6 +18,10 @@ export NPM_HOME="$XDG_DATA_HOME/npm" # $HOME/.local/share/npm
 export PATH="$NPM_HOME/bin:$PATH"
 export NPM_CONFIG_USERCONFIG="$NPM_HOME/.npmrc"
 
+# Deno
+export DENO_DIR="$XDG_CACHE_HOME/deno"
+export DENO_NO_UPDATE_CHECK=1 # mise handles updates
+
 #
 # Aliases
 #
