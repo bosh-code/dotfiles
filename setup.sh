@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # setup.sh - Setup script for dotfiles.
+# TODO: dont automate the linking, make that manual commands
 #
 
 set -euo pipefail
@@ -14,7 +15,7 @@ echo "Dotfiles directory: $dotfiles"
 # Install Homebrew if not installed
 if ! command -v brew &> /dev/null; then
   echo "Homebrew not found, installing..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
   echo "Homebrew is already installed, skipping..."
 fi
@@ -44,12 +45,16 @@ link_file() {
 }
 
 # Link config
-[ -d "$HOME/.config" ] && cp "$HOME/.config" "$HOME/.config-backup" -R
-link_path "$dotfiles/.config" "$HOME"
+# [ -d "$HOME/.config" ] && cp "$HOME/.config" "$HOME/.config-backup" -R
+# link_path "$dotfiles/.config" "$HOME"
+
+# Link kube
+# [ -d "$HOME/.kube" ] && cp "$HOME/.kube" "$HOME/.kube-backup" -R
+# link_path "$dotfiles/.kube" "$HOME/.kube"
 
 # Link local/share
-[ -d "$HOME/.local/share" ] && cp "$HOME/.local/share" "$HOME/.local/share-backup" -R
-link_path "$dotfiles/.local/share" "$HOME/.local/share"
+# [ -d "$HOME/.local/share" ] && cp "$HOME/.local/share" "$HOME/.local/share-backup" -R
+# link_path "$dotfiles/.local/share" "$HOME/.local/share"
 
 # Link .ssh
 [ -d "$HOME/.ssh" ] && cp "$HOME/.ssh" "$HOME/.ssh-backup" -R
@@ -60,12 +65,12 @@ link_file "$dotfiles/.zshenv" "$HOME/.zshenv"
 link_file "$dotfiles/.zshrc" "$HOME/.zshrc"
 
 # Link NuGet config
-mkdir -p "$dotfiles/.local/share/nuget"
-link_file "$HOME/.local/share/nuget/NuGet.Config" "$HOME/.nuget/NuGet/NuGet.Config"
+# mkdir -p "$dotfiles/.local/share/nuget"
+# link_file "$HOME/.local/share/nuget/NuGet.Config" "$HOME/.nuget/NuGet/NuGet.Config"
 
 # Make dirs for work and personal projects
-mkdir -p "$HOME/Work/worktrees"
-mkdir -p "$HOME/Developer/worktrees"
-mkdir -p "$HOME/Sites"
+# mkdir -p "$HOME/Work/worktrees"
+# mkdir -p "$HOME/Developer/worktrees"
+# mkdir -p "$HOME/Sites"
 
 echo -e "\nDotfiles setup complete, restart terminal or source ~/.zshrc\n"
