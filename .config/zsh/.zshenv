@@ -41,3 +41,23 @@ export ZSH_COMPLETIONS_DIR="${ZSH_COMPLETIONS_DIR:-$ZSH_CONFIG_DIR/completions}"
     [[ -d "${(P)zdir}" ]] || mkdir -p -- "${(P)zdir}"
   done
 } __zsh_{config,user_data,cache,completions}_dir XDG_{CONFIG,CACHE,DATA,STATE}_HOME XDG_{RUNTIME,PROJECTS}_DIR
+
+# Initialize Homebrew
+if command -v brew &>/dev/null; then
+  # we know brew is in PATH
+  eval "$(brew shellenv zsh)"
+else
+  # Brew is not in path, go look for it.
+  if [[ "$(uname -s)" = "Linux" ]]; then
+    if [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+      # its a *UNIX system*
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
+  elif [[ "$(uname -s)" = "Darwin" ]]; then
+    if [[ -f /opt/homebrew/bin/brew ]]; then
+      # its a mac
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
+  fi
+  # oh no
+fi
