@@ -1,0 +1,2 @@
+[tools]
+"github:presmihaylov/todocheck" = { version = "latest", asset_pattern = "todocheck-v*-linux-arm64" }
