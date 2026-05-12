@@ -3,12 +3,16 @@
 # op - 1Password CLI integration for shell env
 #
 
-# source ~/.config/op/plugins.sh
-source "${XDG_DATA_HOME}/op/plugins.sh"
+# source ~/.config/op/plugins.sh if the file exists
+if [[ -f "${XDG_DATA_HOME}/op/plugins.sh" ]]; then
+  # shellcheck disable=SC1091 # file may not exist, can't load it
+  source "${XDG_DATA_HOME}/op/plugins.sh"
+fi
 
 export OP_ENV="${XDG_DATA_HOME}/op/.env"
 
 # 1password env run
+# shellcheck disable=SC2139 # I want it to expand when defined
 alias oper="op run --env-file=\"${OP_ENV}\" --"
 
 opwrap() {
