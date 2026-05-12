@@ -1,15 +1,16 @@
-[includeIf "gitdir:~/Work/**"]
-  path = ~/.local/share/git/work.gitconfig
-
+# Load personal by default
 [include]
   path = ~/.local/share/git/personal.gitconfig
 
+# Override with work when in the work directory
+[includeIf "gitdir:~/Work/**"]
+  path = ~/.local/share/git/work.gitconfig
+
+# Other includes
 [include]
   path = ./delta.gitconfig
 
-[init]
-  defaultBranch = main
-
+# All other shared config that isn't sensitive
 [hub]
   protocol = ssh
 
