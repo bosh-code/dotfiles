@@ -15,6 +15,10 @@ export PAGER=bat
 # fzf
 source <(fzf --zsh)
 
+# mise
+# This needs run before any other conf.d files, as some need mise
+export MISE_HOME="$XDG_DATA_HOME/mise" # $HOME/.local/share/mise
+
 # Set the list of directories that cd searches.
 cdpath=(
   $XDG_PROJECTS_DIR(N/)

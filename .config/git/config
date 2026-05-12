@@ -8,14 +8,16 @@
 [include]
   path = ~/.local/share/git/personal.gitconfig
 
+# Override with work when in the work directory
+[includeIf "gitdir:~/Work/**"]
+  path = ~/.local/share/git/work.gitconfig
+
+# Other includes
 [include]
   path = ./delta.gitconfig
 
 [user]
   machine = computer # or server
-
-[init]
-  defaultBranch = main
 
 [hub]
   protocol = ssh

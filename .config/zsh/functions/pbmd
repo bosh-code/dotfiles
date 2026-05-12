@@ -1,0 +1,481 @@
+#!/usr/bin/env zsh
+#
+# pbmd - copy a file to the clipboard as a Markdown code block.
+#
+
+emulate -L zsh
+setopt extended_glob
+
+: ${PBMD_MAX_BYTES:=512000}   # 500 KB
+
+_pbmd_usage() {
+  cat <<'EOF'
+██████╗ ██████╗ ███╗   ███╗██████╗ 
+██╔══██╗██╔══██╗████╗ ████║██╔══██╗
+██████╔╝██████╔╝██╔████╔██║██║  ██║
+██╔═══╝ ██╔══██╗██║╚██╔╝██║██║  ██║
+██║     ██████╔╝██║ ╚═╝ ██║██████╔╝
+╚═╝     ╚═════╝ ╚═╝     ╚═╝╚═════╝ 
+
+pbmd - pasteboard markdown
+Copy a file to the clipboard as a Markdown code block.
+
+The language tag is inferred from the file extension, basename, or shebang
+line. The file path is included as a comment on the first line of the
+block, or as a backticked header above the block when the language has no
+single-line comment syntax.
+
+Usage:
+  pbmd [options] <file> [<file>...]
+  pbmd [options] --stdin -l <lang>
+
+Options:
+  -e, --echo            Also print the result to stdout.
+  -t, --trim            Use just the basename in the header.
+  -r, --relative        Use a path relative to cwd (or git root if available).
+  -n, --no-header       Omit the filename header.
+  -l, --lang LANG       Force a language tag (applies to all inputs).
+  -v, --verbose         Print debug info to stderr; implies --echo.
+      --stdin           Read from stdin instead of file arguments.
+      --no-copy         Don't copy to clipboard (handy with --echo).
+  -h, --help            Show this help.
+
+Environment:
+  PBMD_MAX_BYTES        Per-file size limit in bytes (default 512000 = 500KB).
+  PBMD_DEFAULT_FLAGS    Flags prepended to every invocation. Example:
+                          export PBMD_DEFAULT_FLAGS="-r -e"
+
+Examples:
+  pbmd ~/.config/zsh/.zshenv
+  pbmd -t -e src/index.ts
+  pbmd -r src/**/*.ts
+  pbmd -l python --stdin < snippet.txt
+  PBMD_DEFAULT_FLAGS="-r" pbmd README.md
+EOF
+}
+
+# ---------------------------------------------------------------------------
+# Apply PBMD_DEFAULT_FLAGS, then parse arguments.
+# ---------------------------------------------------------------------------
+if [[ -n $PBMD_DEFAULT_FLAGS ]]; then
+  set -- ${=PBMD_DEFAULT_FLAGS} "$@"
+fi
+
+local opt_echo=0 opt_trim=0 opt_relative=0 opt_no_header=0 opt_no_copy=0 opt_stdin=0 opt_verbose=0
+local opt_lang=""
+local -a files
+local -a raw_args=("$@")
+
+while (( $# )); do
+  case $1 in
+    -e|--echo)        opt_echo=1 ;;
+    -t|--trim)        opt_trim=1 ;;
+    -r|--relative)    opt_relative=1 ;;
+    -n|--no-header)   opt_no_header=1 ;;
+    -v|--verbose)     opt_verbose=1; opt_echo=1 ;;
+    --no-copy)        opt_no_copy=1 ;;
+    --stdin)          opt_stdin=1 ;;
+    -l|--lang)
+      shift
+      if (( $# == 0 )); then
+        print -u2 "pbmd: -l/--lang requires an argument"
+        return 2 2>/dev/null || exit 2
+      fi
+      opt_lang=$1
+      ;;
+    -h|--help)
+      _pbmd_usage
+      return 0 2>/dev/null || exit 0
+      ;;
+    --)
+      shift
+      files+=("$@")
+      break
+      ;;
+    -*)
+      print -u2 "pbmd: unknown option: $1"
+      print -u2 "try: pbmd --help"
+      return 2 2>/dev/null || exit 2
+      ;;
+    *)
+      files+=("$1")
+      ;;
+  esac
+  shift
+done
+
+if (( opt_stdin )); then
+  if (( ${#files} > 0 )); then
+    print -u2 "pbmd: --stdin cannot be combined with file arguments"
+    return 2 2>/dev/null || exit 2
+  fi
+elif (( ${#files} == 0 )); then
+  _pbmd_usage
+  return 2 2>/dev/null || exit 2
+fi
+
+# ---------------------------------------------------------------------------
+# Verbose preamble
+# ---------------------------------------------------------------------------
+# _pbmd_vlog() {
+#   (( opt_verbose )) && print -u2 -r -- "[pbmd] $*"
+# }
+
+_pbmd_vlog() {
+  (( opt_verbose )) || return 0
+  print -u2 -r -- "[pbmd] $*"
+}
+
+if (( opt_verbose )); then
+  _pbmd_vlog "version: dev"
+  _pbmd_vlog "PBMD_DEFAULT_FLAGS = ${PBMD_DEFAULT_FLAGS:-(unset)}"
+  _pbmd_vlog "PBMD_MAX_BYTES     = ${PBMD_MAX_BYTES}"
+  _pbmd_vlog "raw args (after defaults): ${(j: :)raw_args}"
+  _pbmd_vlog "flags: echo=$opt_echo trim=$opt_trim relative=$opt_relative no_header=$opt_no_header no_copy=$opt_no_copy stdin=$opt_stdin lang=${opt_lang:-(auto)}"
+  _pbmd_vlog "files: ${(j:, :)files:-<stdin>}"
+fi
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+_pbmd_lang_for() {
+  local file=$1
+  local base=${file:t}
+  local ext=${file:e:l}
+
+  case $base in
+    Dockerfile|*.dockerfile|Containerfile)             print -r -- dockerfile; return ;;
+    docker-compose.yml|docker-compose.yaml|compose.yml|compose.yaml) print -r -- yaml; return ;;
+    Makefile|GNUmakefile|makefile)                     print -r -- make;       return ;;
+    Justfile|justfile|.justfile)                       print -r -- just;       return ;;
+    Rakefile|Gemfile|Brewfile|Berksfile|Vagrantfile|Capfile|Guardfile|Podfile|Fastfile|Appfile|Matchfile|Deliverfile|Snapfile)
+                                                       print -r -- ruby;       return ;;
+    Procfile|Caddyfile)                                print -r -- "";         return ;;
+    CMakeLists.txt|*.cmake)                            print -r -- cmake;      return ;;
+
+    .zshrc|.zshenv|.zprofile|.zlogin|.zlogout|.zsh_aliases|.zshrc.local) print -r -- zsh;  return ;;
+    .bashrc|.bash_profile|.bash_aliases|.bash_logout|.profile|.inputrc)   print -r -- bash; return ;;
+
+    .gitconfig|.gitignore|.gitattributes|.gitmodules|.gitkeep|.mailmap)
+                                                       print -r -- gitconfig;   return ;;
+
+    CODEOWNERS|FUNDING.yml|FUNDING.yaml)               print -r -- "";          return ;;
+    dependabot.yml|dependabot.yaml|renovate.json|renovate.json5|.renovaterc|.renovaterc.json)
+                                                       print -r -- jsonc;       return ;;
+
+    .editorconfig)                                     print -r -- editorconfig; return ;;
+    .env|.env.*)                                       print -r -- dotenv;       return ;;
+    .npmrc|.yarnrc|.pnpmrc|.bunfig.toml)               print -r -- ini;          return ;;
+    .nvmrc|.node-version|.python-version|.ruby-version|.tool-versions|.terraform-version|.java-version)
+                                                       print -r -- "";          return ;;
+
+    tsconfig*.json|jsconfig*.json|.babelrc|.babelrc.json|.swcrc|.eslintrc|.eslintrc.json|.prettierrc|.prettierrc.json|.stylelintrc|.stylelintrc.json|biome.json|biome.jsonc)
+                                                       print -r -- jsonc;       return ;;
+
+    package-lock.json|composer.lock)                   print -r -- json;        return ;;
+    yarn.lock|pnpm-lock.yaml)                          print -r -- yaml;        return ;;
+    Cargo.lock|Pipfile.lock|poetry.lock|uv.lock)       print -r -- toml;        return ;;
+    Gemfile.lock|go.sum|go.mod)                        print -r -- "";          return ;;
+
+    Podfile.lock)                                      print -r -- yaml;        return ;;
+    *.pbxproj|*.xcconfig)                              print -r -- "";          return ;;
+    Package.swift|Package.resolved)                    print -r -- swift;       return ;;
+
+    gradlew|gradlew.bat)                               print -r -- bash;        return ;;
+    gradle.properties|local.properties)                print -r -- properties;  return ;;
+    AndroidManifest.xml)                               print -r -- xml;         return ;;
+    proguard-rules.pro)                                print -r -- "";          return ;;
+
+    LICENSE|LICENCE|COPYING|AUTHORS|CHANGELOG|CONTRIBUTING|README|TODO|NOTICE|MAINTAINERS|SECURITY)
+                                                       print -r -- "";          return ;;
+  esac
+
+  if [[ $file == */.vscode/*.json ]]; then
+    print -r -- jsonc; return
+  fi
+
+  case $ext in
+    sh|bash)                        print -r -- bash ;;
+    zsh)                            print -r -- zsh ;;
+    fish)                           print -r -- fish ;;
+    ps1|psm1|psd1)                  print -r -- powershell ;;
+    bat|cmd)                        print -r -- batch ;;
+
+    py|pyi|pyw)                     print -r -- python ;;
+    rb|rake|gemspec)                print -r -- ruby ;;
+    pl|pm)                          print -r -- perl ;;
+    lua)                            print -r -- lua ;;
+    r)                              print -r -- r ;;
+    jl)                             print -r -- julia ;;
+
+    js|mjs|cjs)                     print -r -- javascript ;;
+    ts|mts|cts)                     print -r -- typescript ;;
+    jsx)                            print -r -- jsx ;;
+    tsx)                            print -r -- tsx ;;
+    vue)                            print -r -- vue ;;
+    svelte)                         print -r -- svelte ;;
+    astro)                          print -r -- astro ;;
+
+    go)                             print -r -- go ;;
+    rs)                             print -r -- rust ;;
+    java)                           print -r -- java ;;
+    kt|kts)                         print -r -- kotlin ;;
+    swift)                          print -r -- swift ;;
+    scala|sbt)                      print -r -- scala ;;
+    c|h)                            print -r -- c ;;
+    cpp|cc|cxx|hpp|hxx)             print -r -- cpp ;;
+    cs|csx)                         print -r -- csharp ;;
+    fs|fsx|fsi)                     print -r -- fsharp ;;
+    vb)                             print -r -- vbnet ;;
+    php|phtml)                      print -r -- php ;;
+    dart)                           print -r -- dart ;;
+    zig)                            print -r -- zig ;;
+    nim)                            print -r -- nim ;;
+    ex|exs)                         print -r -- elixir ;;
+    erl|hrl)                        print -r -- erlang ;;
+    clj|cljs|cljc|edn)              print -r -- clojure ;;
+    hs|lhs)                         print -r -- haskell ;;
+    ml|mli)                         print -r -- ocaml ;;
+
+    m|mm)                           print -r -- objectivec ;;
+    plist|storyboard|xib|entitlements) print -r -- xml ;;
+
+    gradle)                         print -r -- groovy ;;
+    groovy|gvy)                     print -r -- groovy ;;
+    properties)                     print -r -- properties ;;
+    aidl)                           print -r -- java ;;
+
+    sln|slnx)                       print -r -- "" ;;
+    csproj|vbproj|fsproj|vcxproj|shproj|proj|props|targets|nuspec)
+                                    print -r -- xml ;;
+    resx|axml|xaml|xsd|xsl|xslt)    print -r -- xml ;;
+    razor|cshtml|vbhtml)            print -r -- razor ;;
+    config)                         print -r -- xml ;;
+    runsettings|ruleset|stylecop)   print -r -- xml ;;
+
+    html|htm|xhtml)                 print -r -- html ;;
+    ejs)                            print -r -- ejs ;;
+    hbs|handlebars)                 print -r -- handlebars ;;
+    pug|jade)                       print -r -- pug ;;
+    njk|nunjucks)                   print -r -- nunjucks ;;
+    liquid)                         print -r -- liquid ;;
+    twig)                           print -r -- twig ;;
+    mustache)                       print -r -- mustache ;;
+
+    css)                            print -r -- css ;;
+    scss|sass)                      print -r -- scss ;;
+    less)                           print -r -- less ;;
+    styl|stylus)                    print -r -- stylus ;;
+    pcss|postcss)                   print -r -- css ;;
+
+    json)                           print -r -- json ;;
+    jsonc)                          print -r -- jsonc ;;
+    json5)                          print -r -- json5 ;;
+    jsonl|ndjson)                   print -r -- json ;;
+    yaml|yml)                       print -r -- yaml ;;
+    toml)                           print -r -- toml ;;
+    xml|svg)                        print -r -- xml ;;
+    csv)                            print -r -- csv ;;
+    tsv)                            print -r -- tsv ;;
+    ini|cfg|conf)                   print -r -- ini ;;
+
+    md|markdown)                    print -r -- markdown ;;
+    mdx)                            print -r -- mdx ;;
+    rst)                            print -r -- rst ;;
+    adoc|asciidoc)                  print -r -- asciidoc ;;
+    org)                            print -r -- org ;;
+    tex|sty|cls)                    print -r -- latex ;;
+    bib)                            print -r -- bibtex ;;
+
+    sql|psql|mysql)                 print -r -- sql ;;
+    graphql|gql)                    print -r -- graphql ;;
+    proto)                          print -r -- protobuf ;;
+    prisma)                         print -r -- prisma ;;
+
+    tf|tfvars|hcl)                  print -r -- hcl ;;
+    nix)                            print -r -- nix ;;
+    dhall)                          print -r -- dhall ;;
+
+    vim)                            print -r -- vim ;;
+    el)                             print -r -- elisp ;;
+    diff|patch)                     print -r -- diff ;;
+    log)                            print -r -- log ;;
+    txt)                            print -r -- "" ;;
+    wat)                            print -r -- wasm ;;
+
+    *)                              print -r -- "" ;;
+  esac
+}
+
+# Inspect the first line of a file for a shebang and map it to a language.
+# Only called when extension/basename detection returned empty.
+_pbmd_lang_from_shebang() {
+  local file=$1
+  local first
+  IFS= read -r first < "$file" 2>/dev/null || return
+  [[ $first == '#!'* ]] || return
+
+  case $first in
+    *zsh*)              print -r -- zsh ;;
+    *bash*)             print -r -- bash ;;
+    *' sh'|*'/sh'|*'/sh '*) print -r -- bash ;;
+    *fish*)             print -r -- fish ;;
+    *python*)           print -r -- python ;;
+    *node*|*deno*|*bun*) print -r -- javascript ;;
+    *ruby*)             print -r -- ruby ;;
+    *perl*)             print -r -- perl ;;
+    *lua*)              print -r -- lua ;;
+    *php*)              print -r -- php ;;
+    *Rscript*)          print -r -- r ;;
+    *tclsh*|*wish*)     print -r -- tcl ;;
+    *osascript*)        print -r -- applescript ;;
+    *)                  print -r -- "" ;;
+  esac
+}
+
+_pbmd_comment_for() {
+  case $1 in
+    bash|zsh|fish|sh|python|ruby|perl|make|cmake|just|dockerfile|yaml|toml|ini|properties|gitconfig|editorconfig|dotenv|nix|hcl|conf|powershell|r|julia|elixir|nim|prisma|graphql|tcl|applescript)
+      print -r -- "# " ;;
+    javascript|typescript|jsx|tsx|vue|svelte|astro|go|rust|java|kotlin|swift|scala|groovy|c|cpp|csharp|fsharp|vbnet|objectivec|php|dart|zig|less|stylus|css|scss|jsonc|json5|proto|protobuf|dhall)
+      print -r -- "// " ;;
+    sql|lua|haskell)        print -r -- "-- " ;;
+    clojure|elisp)          print -r -- ";; " ;;
+    erlang)                 print -r -- "%% " ;;
+    latex|bibtex)           print -r -- "% " ;;
+    vim)                    print -r -- '" ' ;;
+    batch)                  print -r -- ":: " ;;
+    html|xml|markdown|mdx|ejs|handlebars|nunjucks|liquid|twig|mustache|razor)
+                            print -r -- "<!-- " ;;
+    pug)                    print -r -- "// " ;;
+    json|csv|tsv|log|"")    print -r -- "" ;;
+    *)                      print -r -- "# " ;;
+  esac
+}
+
+_pbmd_size_of() {
+  stat -f%z -- "$1" 2>/dev/null || stat -c%s -- "$1" 2>/dev/null
+}
+
+_pbmd_display_path() {
+  local f=$1
+  if (( opt_trim )); then
+    print -r -- "${f:t}"
+  elif (( opt_relative )); then
+    local abs="${f:A}"
+    local root
+    root=$(git -C "${f:h}" rev-parse --show-toplevel 2>/dev/null)
+    if [[ -n $root && $abs == $root/* ]]; then
+      print -r -- "${abs#$root/}"
+    elif [[ $abs == $PWD/* ]]; then
+      print -r -- "${abs#$PWD/}"
+    else
+      print -r -- "$f"
+    fi
+  else
+    print -r -- "$f"
+  fi
+}
+
+# Pick a fence with enough backticks to safely wrap the content.
+_pbmd_fence_for() {
+  local content=$1
+  local longest=0 run=0 i ch
+  for (( i = 1; i <= ${#content}; i++ )); do
+    ch=${content[i]}
+    if [[ $ch == '`' ]]; then
+      (( run++ ))
+      (( run > longest )) && longest=$run
+    else
+      run=0
+    fi
+  done
+  local n=3
+  (( longest >= 3 )) && n=$((longest + 1))
+  local fence=""
+  for (( i = 0; i < n; i++ )); do fence+='`'; done
+  print -r -- "$fence"
+}
+
+# ---------------------------------------------------------------------------
+# Build output
+# ---------------------------------------------------------------------------
+local out="" lang lang_source comment fence size content display
+
+if (( opt_stdin )); then
+  content=$(cat)
+  lang=${opt_lang:-""}
+  fence=$(_pbmd_fence_for "$content")
+  _pbmd_vlog "stdin: ${#content} bytes, lang=${lang:-(none)}, fence=${#fence} backticks"
+  out+="${fence}${lang}"$'\n'
+  out+="${content}"$'\n'
+  out+="${fence}"$'\n'
+else
+  local f
+  for f in "${files[@]}"; do
+    if [[ ! -r $f ]]; then
+      print -u2 "pbmd: cannot read: $f"
+      return 1 2>/dev/null || exit 1
+    fi
+
+    size=$(_pbmd_size_of "$f")
+    if [[ -n $size ]] && (( size > PBMD_MAX_BYTES )); then
+      print -u2 "pbmd: refusing to copy '$f' (${size} bytes > ${PBMD_MAX_BYTES} byte limit)"
+      print -u2 "      override with: PBMD_MAX_BYTES=$((size + 1)) pbmd $f"
+      return 1 2>/dev/null || exit 1
+    fi
+
+    if [[ -n $opt_lang ]]; then
+      lang=$opt_lang
+      lang_source="forced"
+    else
+      lang=$(_pbmd_lang_for "$f")
+      lang_source="extension/basename"
+      if [[ -z $lang ]]; then
+        lang=$(_pbmd_lang_from_shebang "$f")
+        [[ -n $lang ]] && lang_source="shebang"
+      fi
+      [[ -z $lang ]] && lang_source="none"
+    fi
+
+    comment=$(_pbmd_comment_for "$lang")
+    content=$(<"$f")
+    fence=$(_pbmd_fence_for "$content")
+    display=$(_pbmd_display_path "$f")
+
+    _pbmd_vlog "file: $f"
+    _pbmd_vlog "  size=${size:-?} bytes  lang=${lang:-(none)} (via $lang_source)  display='$display'  fence=${#fence} backticks"
+
+    if (( opt_no_header )); then
+      out+="${fence}${lang}"$'\n'
+    elif [[ -z $comment ]]; then
+      out+="\`${display}\`:"$'\n'
+      out+="${fence}${lang}"$'\n'
+    else
+      out+="${fence}${lang}"$'\n'
+      if [[ $comment == "<!-- " ]]; then
+        out+="${comment}${display} -->"$'\n'
+      else
+        out+="${comment}${display}"$'\n'
+      fi
+    fi
+
+    out+="${content}"$'\n'
+    out+="${fence}"$'\n'
+  done
+fi
+
+# ---------------------------------------------------------------------------
+# Output
+# ---------------------------------------------------------------------------
+if (( ! opt_no_copy )); then
+  print -rn -- "$out" | pbcopy
+  _pbmd_vlog "copied ${#out} bytes to clipboard via pbcopy"
+else
+  _pbmd_vlog "skipped clipboard copy (--no-copy)"
+fi
+
+if (( opt_echo )); then
+  print -rn -- "$out"
+fi
