@@ -44,8 +44,17 @@ unset _fndir
 # Create an amazing Zsh config using antidote plugins.
 source $ZSH_CONFIG_DIR/lib/antidote.zsh
 
-# Source conf.d.* files (mix of .zsh and .sh)
+# Source .config/zsh/conf.d.* files (mix of .zsh and .sh)
 for _rc in $ZDOTDIR/conf.d/*; do
+  # ignore files that begin with ~
+  [[ "${_rc:t}" != '~'* ]] || continue
+  # echo "[debug] Sourcing $_rc"
+  source "$_rc"
+done
+unset _rc
+
+# Source .local/share/zsh/conf.d.* files (mix of .zsh and .sh)
+for _rc in $XDG_DATA_HOME/zsh/conf.d/*; do
   # ignore files that begin with ~
   [[ "${_rc:t}" != '~'* ]] || continue
   # echo "[debug] Sourcing $_rc"
