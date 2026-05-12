@@ -71,6 +71,7 @@ ohmyzsh/ohmyzsh path:plugins/direnv pin:e64912e0c1eaa32181c3b5e5e4bf8042ecd0e8a7
 ohmyzsh/ohmyzsh path:plugins/extract pin:e64912e0c1eaa32181c3b5e5e4bf8042ecd0e8a7
 ohmyzsh/ohmyzsh path:plugins/kubectl pin:e64912e0c1eaa32181c3b5e5e4bf8042ecd0e8a7
 ohmyzsh/ohmyzsh path:plugins/kubectx pin:e64912e0c1eaa32181c3b5e5e4bf8042ecd0e8a7
+ohmyzsh/ohmyzsh path:plugins/sudo pin:e64912e0c1eaa32181c3b5e5e4bf8042ecd0e8a7
 
 #
 # Utils
