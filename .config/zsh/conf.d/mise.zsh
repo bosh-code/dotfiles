@@ -3,8 +3,6 @@
 # mise - mise dev tool manager aliases
 #
 
-export MISE_HOME="$XDG_DATA_HOME/mise" # $HOME/.local/share/mise
-
 alias mp="mise"
 alias mpi="mp install"
 alias mpu="mp use"
