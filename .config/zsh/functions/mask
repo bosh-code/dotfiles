@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+#
+# mask - Mask a string with asterisks
+#
+
+# Either pass an arg or pipe to it
+# mask "secret"
+# echo "secret" | mask
+
+local str
+if [[ $# -eq 0 ]]; then
+  read -r str
+else
+  str=$1
+fi
+printf '%s\n' "${(l[$#str][*])str:$#str*3/4}"

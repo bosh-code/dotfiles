@@ -3,9 +3,12 @@
 # zoxide: Configure zoxide.
 #
 
+# has zoxide || return 1
+# eval "$(zoxide init zsh)"
+
 if ! (( $+commands[zoxide] )); then
   echo "zoxide not found" >&2
-  return 1
+  return
 fi
 
 # https://github.com/ajeetdsouza/zoxide

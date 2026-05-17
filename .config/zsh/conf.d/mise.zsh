@@ -3,6 +3,9 @@
 # mise - mise dev tool manager aliases
 #
 
+# check for mise
+[[ -x "$(command -v mise)" ]] || return
+
 alias mp="mise"
 alias mpi="mp install"
 alias mpu="mp use"

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+# has - Check if a command exists in the system.
+#
+
+command -v "$1" &>/dev/null

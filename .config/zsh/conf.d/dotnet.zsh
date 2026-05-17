@@ -3,6 +3,9 @@
 # dotnet: Everything dotnet & nuget related
 #
 
+# first check for dotnet, otherwise return early.
+[[ -x "$(command -v dotnet)" ]] || return
+
 # Add .NET Core SDK tools
 if [[ -d $HOME/.dotnet/tools ]]; then
   export PATH="$HOME/.dotnet/tools:$PATH"

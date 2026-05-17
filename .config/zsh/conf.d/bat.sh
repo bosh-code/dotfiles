@@ -3,6 +3,9 @@
 # bat - bat and bat-extras configuration
 #
 
+# first check for bat, otherwise return early.
+[[ -x "$(command -v bat)" ]] || return
+
 # Batman
 # https://github.com/eth-p/bat-extras/blob/master/doc/batman.md
 eval "$(batman --export-env)"

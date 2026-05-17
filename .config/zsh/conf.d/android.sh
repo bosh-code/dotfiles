@@ -3,6 +3,9 @@
 # android - Android SDK environment setup
 #
 
+# Only run on macos
+[[ "$OSTYPE" == macos* ]] || return
+
 export ANDROID_HOME="$HOME/.android/sdk"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
 

@@ -3,6 +3,8 @@
 # cowsay - Custom cowfile configuration
 #
 
+[[ -x "$(command -v cowsay)" ]] || return
+
 export COWPATH="$HOME/.config/cowfiles"
 
 alias carl="cowsay -f $COWPATH/carl.cow"

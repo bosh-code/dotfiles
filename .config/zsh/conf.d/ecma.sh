@@ -3,6 +3,9 @@
 # ecma: Everything bun, deno, node, js, ts related
 #
 
+# first check for node, otherwise return early.
+[[ -x "$(command -v node)" ]] || return
+
 # lazy alias
 alias npx="pnpm dlx"
 

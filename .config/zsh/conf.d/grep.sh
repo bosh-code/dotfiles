@@ -3,6 +3,9 @@
 # grep - Grep aliases using ripgrep
 #
 
+# first check for ripgrep, otherwise return early.
+[[ -x "$(command -v rg)" ]] || return
+
 alias grep="rg"
 alias egrep="rg -e"
 alias fgrep="rg -F"

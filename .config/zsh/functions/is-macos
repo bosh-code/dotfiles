@@ -3,4 +3,4 @@
 # is-macos - Check if the current system is macOS.
 #
 
-[[ "$OSTYPE" == darwin* ]]
+[[ "$OSTYPE" == darwin* ]] || [[ "$(uname -s)" == "Darwin" ]]
