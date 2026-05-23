@@ -5,65 +5,62 @@
 
 [[ -x "$(command -v docker)" ]] || return
 
-# Docker aliases
+# Core
 alias d="docker"
 
-# alias dps="d ps"
-# alias dpsa="d ps -a"
+# Containers
 alias dps="d ps -a"
 alias drm="d rm"
 alias drmf="d rm -f"
-
-alias di="d images"
-alias dip="d image prune -f"
-alias dipa="d image prune -a -f"
-alias drmi="d rmi"
-
 alias drun="d run --rm -it"
 alias dstop="d stop"
-
 alias dexec="d exec -it"
 alias dx="dexec"
-# needs a container arg
-alias dl="d logs -f"
-# needs a tag arg
-alias db="d build -t"
+alias dl="d logs -f"        # usage: dl <container>
 
-alias ds="d system"
-# be really careful with these. `docker system prune -f` nukes stopped containers, dangling images, unused networks, and build cache in one shot.
-alias dsp="ds prune -f"
-alias dspv="ds prune -f --volumes"
+# Images
+alias di="d images"
+alias drmi="d rmi"
+alias db="d build -t"       # usage: db <tag> <context>
+alias dip="d image prune -f"
+alias dipa="d image prune -a -f"
 
+# Volumes
 alias dv="d volume"
 alias dvp="d volume prune -f"
 
+# Networks
 alias dn="d network"
 alias dnp="d network prune -f"
 
-# Docker Compose aliases
+# System
+alias ds="d system"
+alias dsp="ds prune -f"           # removes stopped containers, dangling images, unused networks, build cache
+alias dspv="ds prune -f --volumes"  # ^ plus volumes. destructive — use with care
+
+# Compose
 alias dc="d compose"
 alias dcu="dc up -d"
 alias dcd="dc down"
 alias dcp="dc pull"
 alias dcr="dc restart"
+alias dcs="dc stop"
+alias dcb="dc build"
+alias dcps="dc ps -a"
 alias dcl="dc logs -f"
 alias dcexec="dc exec"
 alias dcx="dcexec"
-alias dcb="dc build"
-# alias dcps="dc ps"
-# alias dcpsa="dc ps -a"
-alias dcps="dc ps -a"
-alias dcs="dc stop"
 
-# Docker Compose helper function to pull, stop, and restart containers, then prune images
-# basically a nicer way restart the stack with a new image and clean up the old one.
-# Usage: dcpu [project_directory] (defaults to current directory)
+# Compose functions
 
+# Pull latest images, restart the stack, and prune old images.
+# Usage: dcpu [project_directory]
 dcpu() {
+  local dir="${1:-.}"
   local cmds=(
-    "dc pull"
-    "dc down"
-    "dc up -d"
+    "docker compose -f '$dir' pull"
+    "docker compose -f '$dir' down"
+    "docker compose -f '$dir' up -d"
     "docker image prune -a -f"
   )
   for cmd in "${cmds[@]}"; do
@@ -71,3 +68,22 @@ dcpu() {
     eval "$cmd" || { echo "✗ Failed: $cmd"; return 1; }
   done
 }
+
+# Tail logs for a specific service, defaulting to last 50 lines.
+# Usage: dclog <service> [lines]
+dclog() {
+  local service="${1:?usage: dclog <service> [lines]}"
+  local lines="${2:-50}"
+  dc logs -f --tail="$lines" "$service"
+}
+
+# Open a shell in a running compose service.
+# Usage: dcsh <service> [shell]
+dcsh() {
+  local service="${1:?usage: dcsh <service> [shell]}"
+  local shell="${2:-sh}"
+  dc exec "$service" "$shell"
+}
+
+alias dps1="d ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'"
+alias dps2="d ps -a --format json | jq -r '[.Names, .Image, .Status, .Ports] | @tsv' | column -t"
