@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 #
 # setup.sh - Setup script for DOTFILES.
-# TODO: dont automate the linking, make that manual commands
+# TODO: Move this to script/setup.sh and make the root setup.sh call it.
+# Incase whatever reads the repo runs looks for a root setup script instead of sript/setup.sh
+# dont automate the linking, make that manual commands
 #
 
 set -euo pipefail

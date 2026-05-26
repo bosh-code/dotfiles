@@ -6,7 +6,8 @@
 # Only run on macos
 [[ "$OSTYPE" == darwin* ]] || return
 
-alias code='code-insiders'
-# alias vs="code"
-alias vs="code-insiders"
-alias vsi="code-insiders"
+alias vscode="code-insiders"
+alias vscodium="codium-insiders"
+
+alias code="vscode ."
+alias codium="vscodium ."

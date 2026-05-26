@@ -19,6 +19,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
 # Set Zsh location vars.
 # ZSH_CONFIG_DIR="${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}"
 # ZSH_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"

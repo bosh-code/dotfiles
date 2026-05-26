@@ -3,4 +3,5 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-[[ -r $ZDOTDIR/.zshenv ]] && . $ZDOTDIR/.zshenv
+# [[ -r $ZDOTDIR/.zshenv ]] && . $ZDOTDIR/.zshenv
+[[ -r $XDG_CONFIG_HOME/zsh/.zshenv ]] && . $XDG_CONFIG_HOME/zsh/.zshenv
