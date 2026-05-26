@@ -36,7 +36,6 @@ alias ldot='l -ld .*'
 # fix typos
 alias get=git
 alias quit=exit
-alias cd..='cd ..'
 alias zz=exit
 
 # disk usage

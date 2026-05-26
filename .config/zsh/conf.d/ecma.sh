@@ -42,13 +42,6 @@ alias npl="npr lint"
 alias nplf="npl --fix"
 alias npt="npr test"
 
-# 1password wrapped npm
-opnpm() { opwrap npm "$@"; }
-alias opnpi="opnpm install"
-alias opnpid="opwrap npm install -D"
-alias opnpig="opwrap npm install -g"
-alias opnpci="opwrap npm ci"
-
 # yarn
 alias y="yarn"
 alias ya="y add"
@@ -73,3 +66,13 @@ alias pnupg="pnup -g"
 
 # Handle pnpm versions with mise
 alias pnsu="mug pnpm@latest"
+
+# check for op
+[[ -x "$(command -v op)" ]] || return
+
+# 1password wrapped npm
+opnpm() { opwrap npm "$@"; }
+alias opnpi="opnpm install"
+alias opnpid="opwrap npm install -D"
+alias opnpig="opwrap npm install -g"
+alias opnpci="opwrap npm ci"
