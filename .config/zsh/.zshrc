@@ -34,7 +34,15 @@ setopt EXTENDED_GLOB INTERACTIVE_COMMENTS
 fpath=($ZSH_COMPLETIONS_DIR $fpath)
 
 # Lazy-load (autoload) Zsh function files from a directory.
+# Public dotfiles functions
 for _fndir in $ZSH_CONFIG_DIR/functions(/FN) $ZSH_CONFIG_DIR/functions/*(/FN); do
+  fpath=($_fndir $fpath)
+  autoload -Uz $_fndir/*~*/_*(N.:t)
+done
+unset _fndir
+
+# Secret dotfiles functions
+for _fndir in $ZSH_DATA_DIR/functions(/FN) $ZSH_DATA_DIR/functions/*(/FN); do
   fpath=($_fndir $fpath)
   autoload -Uz $_fndir/*~*/_*(N.:t)
 done
