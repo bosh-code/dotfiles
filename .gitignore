@@ -1,5 +1,6 @@
-.idea/
-.DS_Store
+#
+# .config/
+#
 
 # Ignore all children of .config by default
 .config/*
@@ -11,12 +12,6 @@
 !.config/zed/
 !.config/zsh/
 
-# Ignore compiled zsh files
-.zsh_plugins.zsh
-*.zwc
-*.zwc.old
-.zcompdump
-
 # Ignore generated files
 .config/zsh/.zsh_history
 .config/zsh/.zsh_sessions/
@@ -26,12 +21,18 @@
 .config/zed/prompts
 .config/zed/themes
 
+#
+# .ssh/
+#
+
 # Ignore 1password config file SSH known hosts files
 # The 1password file just contains the socket stuff and is generated.
 .ssh/1password.conf
 .ssh/authorized_keys
 .ssh/known_hosts
 .ssh/known_hosts.old
+
+# Ignore keys
 id_rsa
 id_rsa.pub
 id_ed25519
@@ -40,3 +41,28 @@ id_ecdsa
 id_ecdsa.pub
 id_dsa
 id_dsa.pub
+
+#
+# git
+#
+
+# Ignore root level git config
+/.gitconfig
+
+#
+# zsh
+#
+
+# Ignore compiled zsh files
+.zsh_plugins.zsh
+*.zwc
+*.zwc.old
+.zcompdump
+
+#
+# misc
+#
+
+# Ignore IDE and OS files
+.idea/
+.DS_Store

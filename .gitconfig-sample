@@ -1,0 +1,3 @@
+# override normal checks and use work for everything
+[include]
+  path = ~/.local/share/git/work.gitconfig

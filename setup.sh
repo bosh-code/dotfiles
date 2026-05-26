@@ -115,3 +115,15 @@ for newDir in "${newDirs[@]}"; do
     echo "Directory $newDir already exists, skipping..."
   fi
 done
+
+# TODO: finish this:
+# copy the .gitconfig-sample to .gitconfig if it doesn't exist, otherwise skip
+if [ ! -f "$DOTFILES/.gitconfig" ]; then
+  echo "Creating .gitconfig from .gitconfig-sample"
+  #cp "$DOTFILES/.gitconfig-sample" "$DOTFILES/.gitconfig"
+else
+  echo ".gitconfig already exists, skipping..."
+fi
+
+# symlink the .gitconfig to the home directory
+#ln -s "$DOTFILES/.gitconfig" "$HOME/.gitconfig"
