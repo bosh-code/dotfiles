@@ -7,9 +7,7 @@
 [[ -x "$(command -v dotnet)" ]] || return
 
 # Add .NET Core SDK tools
-if [[ -d $HOME/.dotnet/tools ]]; then
-  export PATH="$HOME/.dotnet/tools:$PATH"
-fi
+export PATH="$HOME/.dotnet/tools:$PATH"
 
 # Set root vars so things like pwsh can find dotnet
 export DOTNET_ROOT="$MISE_HOME/dotnet-root"
