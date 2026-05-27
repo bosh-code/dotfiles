@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+# dotpush - stages .local, commits, and pushes from $DOTFILES. Uses the first arg as the commit message, or defaults to 'chore(repo): update .local'.
+#
+
+(cd "$DOTFILES" && git add .local && git commit -m "${1:-'chore(repo): update .local'}" && git push)
