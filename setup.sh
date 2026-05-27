@@ -125,5 +125,10 @@ else
   echo ".gitconfig already exists, skipping..."
 fi
 
-# symlink the .gitconfig to the home directory
+# symlink the ignored .gitconfig to the home directory
+# the ignored one is used so that the machine specific config isnt checked into git
 #ln -s "$DOTFILES/.gitconfig" "$HOME/.gitconfig"
+
+# symlink the root env files
+#ln -s "$DOTFILES/.root.env" "$HOME/.env"
+#ln -s "$DOTFILES/.root.envrc" "$HOME/.envrc"
