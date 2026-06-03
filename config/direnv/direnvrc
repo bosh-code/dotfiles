@@ -1,0 +1,8 @@
+# Load global 1password secrets
+if has op && [[ -f "${XDG_DATA_HOME}/op/.env" ]]; then
+  watch_file "${XDG_DATA_HOME}/op/.env"
+  while IFS='=' read -r key value; do
+    [[ -z "$key" || "$key" == \#* ]] && continue
+    export "$key=$value"
+  done < <(op inject --in-file "${XDG_DATA_HOME}/op/.env")
+fi

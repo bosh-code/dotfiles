@@ -103,7 +103,7 @@ done
 
 
 # Link NuGet config
-# mkdir -p "$DOTFILES/.local/share/nuget"
+# mkdir -p "$DOTFILES/local/share/nuget"
 # ln -s "$HOME/.local/share/nuget/NuGet.Config" "$HOME/.nuget/NuGet/NuGet.Config"
 
 for newDir in "${newDirs[@]}"; do
@@ -132,3 +132,6 @@ fi
 # symlink the root env files
 #ln -s "$DOTFILES/.root.env" "$HOME/.env"
 #ln -s "$DOTFILES/.root.envrc" "$HOME/.envrc"
+
+# local machine level zsh overrides (ignored in git)
+#cp "$DOTFILES/local.zsh-sample" "$DOTFILES/config/zsh/local.zsh"

@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+#
+# local.zsh - local zsh configuration that is not meant to be shared across machines.
+#
+
+# echo "[debug] ~/.config/zsh/local.zsh loaded at: $(date +%T.%N) with PID $$ from $0" >&2
+
+ZSH_MISE_ENABLED=1

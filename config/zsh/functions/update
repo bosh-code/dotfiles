@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#
+# update - updates all the tools that I use
+#
+
+[[ -x "$(command -v brew)" ]] && brewup
+
+[[ -x "$(command -v mise)" ]] && mise upgrade

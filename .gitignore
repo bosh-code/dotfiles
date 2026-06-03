@@ -5,38 +5,40 @@
 
 
 #
-# .config/
+# config/
 #
 
-# Ignore all children of .config by default
-.config/*
+# Ignore all children of config by default
+config/*
 
 # Re-include select dirs
-!.config/cowfiles/
-!.config/ghostty/
-!.config/git/
-!.config/zed/
-!.config/zsh/
+!config/cowfiles/
+!config/direnv/
+!config/ghostty/
+!config/git/
+!config/homebrew/
+!config/zed/
+!config/zsh/
 
 # Ignore generated files
-.config/zsh/.zsh_history
-.config/zsh/.zsh_sessions/
-.config/zsh/completions/
+config/zsh/.zsh_history
+config/zsh/.zsh_sessions/
+config/zsh/completions/
 
 # Zed
-.config/zed/prompts
-.config/zed/themes
+config/zed/prompts
+config/zed/themes
+
+# Ignore local zsh config
+config/zsh/local.zsh
 
 #
-# .ssh/
+# ssh/
 #
 
-# Ignore 1password config file SSH known hosts files
-# The 1password file just contains the socket stuff and is generated.
-.ssh/1password.conf
-.ssh/authorized_keys
-.ssh/known_hosts
-.ssh/known_hosts.old
+# Only check in the ssh config, ignore the rest of the
+ssh/
+!ssh/config
 
 # Ignore keys
 id_rsa

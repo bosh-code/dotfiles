@@ -26,7 +26,6 @@ files=(
 # The directories list that we want to backup and link.
 dirs=(
   "$HOME/.config"
-  "$HOME/.kube"
   "$HOME/.local/share"
   "$HOME/.ssh"
 )
@@ -49,8 +48,7 @@ declare -A fileLinkMap=(
 
 # dirs to link, with source and target
 declare -A dirLinkMap=(
-  ["$HOME/.config"]="$DOTFILES/.config"
-  ["$HOME/.kube"]="$DOTFILES/.kube"
-  ["$HOME/.local/share"]="$DOTFILES/.local/share"
+  ["$HOME/.config"]="$DOTFILES/config"
+  ["$HOME/.local/share"]="$DOTFILES/local/share"
   ["$HOME/.ssh"]="$DOTFILES/.ssh"
 )
