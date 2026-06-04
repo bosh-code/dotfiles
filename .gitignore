@@ -13,19 +13,45 @@
 
 # Re-include select dirs
 !.config/cowfiles/
+!.config/fnox/
 !.config/ghostty/
 !.config/git/
-!.config/zed/
-!.config/zsh/
+!.config/pitchfork/
 
+# loose .config/* files
+# yarn
+!.config/.yarnrc.yml
+# flutter (terrible filename)
+!.config/settings
+
+# btop
+!.config/btop/
+.config/btop/*
+!.config/btop/themes/
+!.config/btop/btop.conf
+
+# nushell
+!.config/nushell/
+.config/nushell/*
+!.config/nushell/config.nu
+!.config/nushell/env.nu
+
+# xonsh
+!.config/xonsh/
+.config/xonsh/*
+!.config/xonsh/rc.d/
+
+# zed
+!.config/zed/
+.config/zed/prompts
+.config/zed/themes
+
+# zsh
+!.config/zsh/
 # Ignore generated files
 .config/zsh/.zsh_history
 .config/zsh/.zsh_sessions/
 .config/zsh/completions/
-
-# Zed
-.config/zed/prompts
-.config/zed/themes
 
 #
 # .ssh/

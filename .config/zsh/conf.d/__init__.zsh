@@ -16,6 +16,9 @@ export PAGER=bat
 source <(fzf --zsh)
 
 # mise
+eval "$(mise activate zsh)"
+
+# mise
 # This needs run before any other conf.d files, as some need mise
 export MISE_HOME="$XDG_DATA_HOME/mise" # $HOME/.local/share/mise
 

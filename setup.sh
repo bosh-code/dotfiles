@@ -132,3 +132,6 @@ fi
 # symlink the root env files
 #ln -s "$DOTFILES/.root.env" "$HOME/.env"
 #ln -s "$DOTFILES/.root.envrc" "$HOME/.envrc"
+
+# symlink xonsh
+#ln -s "$DOTFILES/.xonshrc" "$HOME/.xonshrc"

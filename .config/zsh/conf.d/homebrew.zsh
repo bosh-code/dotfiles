@@ -21,3 +21,10 @@ for _brew_hook in "${ZSH_CONFIG_DIR}/hooks"/brew*.zsh(N); do
 	source "${_brew_hook}"
 done
 unset _brew_hook
+
+alias br="brew"
+alias bri="br install"
+alias brs="br search"
+alias brl="br list"
+# fix this mistake I always make :(
+alias "brew isntall"="bri"
