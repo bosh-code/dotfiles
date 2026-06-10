@@ -1,9 +1,0 @@
-{
-  "android-sdk": "/Users/Ryan.Bosher/.android/sdk",
-  "enable-windows-desktop": false,
-  "enable-web": false,
-  "enable-linux-desktop": false,
-  "enable-macos-desktop": false,
-  "enable-android": true,
-  "enable-ios": true
-}

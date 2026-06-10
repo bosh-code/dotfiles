@@ -68,17 +68,17 @@ fi
 for key in "${!dirLinkMap[@]}"; do
   target="$key"
   source="${dirLinkMap[$key]}"
-  
+
   if [ -d "$target" ]; then
     echo "Backing up $target to $HOME/.backups/$(basename "$target")-backup"
-    
+
     #cp -r "$target" "$HOME/.backups/$(basename "$target")-backup"
     # Have to delete before linking
     #rm -rf "$target"
   else
     echo "Directory $target does not exist, skipping backup..."
   fi
-  
+
   echo "Linking $source to $target"
   #ln -s "$source" "$target"
 done
@@ -89,7 +89,7 @@ for key in "${!fileLinkMap[@]}"; do
   source="${fileLinkMap[$key]}"
   if [ -f "$target" ]; then
     echo "Backing up $target to $HOME/.backups/$(basename "$target")-backup"
-    
+
     #cp "$target" "$HOME/.backups/$(basename "$target")-backup"
     # Have to delete before linking
     #rm -f "$target"
@@ -103,13 +103,13 @@ done
 
 
 # Link NuGet config
-# mkdir -p "$DOTFILES/.local/share/nuget"
+# mkdir -p "$DOTFILES/local/share/nuget"
 # ln -s "$HOME/.local/share/nuget/NuGet.Config" "$HOME/.nuget/NuGet/NuGet.Config"
 
 for newDir in "${newDirs[@]}"; do
   if [ ! -d "$newDir" ]; then
     echo "Creating directory $newDir"
-    
+
     #mkdir -p "$newDir"
   else
     echo "Directory $newDir already exists, skipping..."
@@ -133,5 +133,14 @@ fi
 #ln -s "$DOTFILES/.root.env" "$HOME/.env"
 #ln -s "$DOTFILES/.root.envrc" "$HOME/.envrc"
 
+# local machine level zsh overrides (ignored in git)
+#cp "$DOTFILES/local.zsh-sample" "$DOTFILES/config/zsh/local.zsh"
+
+
 # symlink xonsh
 #ln -s "$DOTFILES/.xonshrc" "$HOME/.xonshrc"
+
+# manual:
+# ln -s "$HOME/.dotfiles/config" "$HOME/.config"
+# ln -s "$HOME/.dotfiles/local" "$HOME/.local"
+

@@ -42,6 +42,8 @@ alias dspv="ds prune -f --volumes"  # ^ plus volumes. destructive — use with c
 alias dc="d compose"
 alias dcu="dc up -d"
 alias dcd="dc down"
+# common mistake I make lol
+alias cdc="dcd"
 alias dcp="dc pull"
 alias dcr="dc restart"
 alias dcs="dc stop"

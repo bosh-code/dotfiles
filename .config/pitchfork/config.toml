@@ -1,8 +1,0 @@
-#:schema https://pitchfork.en.dev/schema.json
-
-[daemons]
-
-[settings.web]
-auto_start = false    # Start web UI automatically with supervisor
-bind_port = 3120     # Default port (default: 3120)
-bind_address = "127.0.0.1"  # Default: localhost only

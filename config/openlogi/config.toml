@@ -1,0 +1,18 @@
+schema_version = 1
+
+[app_settings]
+launch_at_login = false
+check_for_updates = false
+update_prompt_seen = true
+show_in_menu_bar = false
+thumbwheel_sensitivity = 14
+
+[devices.0b048]
+dpi_presets = [
+    800,
+    1000,
+    1500,
+]
+
+[devices.0b048.button_bindings]
+DpiToggle = "ToggleSmartShift"

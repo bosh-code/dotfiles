@@ -30,6 +30,15 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # Set essential options
 setopt EXTENDED_GLOB INTERACTIVE_COMMENTS
 
+# Local (machine specific) settings
+export ZSH_MISE_ENABLED=0
+export ZSH_FNOX_ENABLED=0
+export ZSH_PITCHFORK_ENABLED=0
+
+# Load overrides before functions and conf
+[ -r $HOME/.config/zsh/local.zsh ] \
+&& . $HOME/.config/zsh/local.zsh
+
 # Add custom completions
 fpath=($ZSH_COMPLETIONS_DIR $fpath)
 
@@ -77,10 +86,6 @@ compinit -i -d "$ZSH_COMPDUMP"
 
 # Never start in the root file system.
 [[ "$PWD" != "/" ]] || cd
-
-# Local settings
-[ -r $HOME/.local/config/zsh/.zshrc.local ] \
-&& . $HOME/.local/config/zsh/.zshrc.local
 
 # Finish profiling by calling zprof.
 [[ "$ZPROFRC" -eq 1 ]] && zprof
