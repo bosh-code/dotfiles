@@ -87,7 +87,7 @@ id_dsa.pub
 #
 
 # Ignore root level git config
-/.gitconfig
+home/.gitconfig
 
 
 #

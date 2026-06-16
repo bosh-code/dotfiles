@@ -144,3 +144,9 @@ fi
 # ln -s "$HOME/.dotfiles/config" "$HOME/.config"
 # ln -s "$HOME/.dotfiles/local" "$HOME/.local"
 
+# Link $HOME files (-sfn was used to overwrite)
+# ln -sfn $DOTFILES/home/.root.env $HOME/.env
+# ln -sfn $DOTFILES/home/.root.envrc $HOME/.envrc
+# ln -sfn $DOTFILES/home/.xonshrc $HOME/.xonshrc
+# ln -sfn $DOTFILES/home/.zshenv $HOME/.zshenv
+# ln -sfn $DOTFILES/home/.zshrc $HOME/.zshrc
