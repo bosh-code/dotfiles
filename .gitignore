@@ -26,9 +26,6 @@ config/btop/*
 !config/btop/themes/
 !config/btop/btop.conf
 
-# flutter (terrible filename)
-!config/settings
-
 # nushell
 !config/nushell/
 config/nushell/*
