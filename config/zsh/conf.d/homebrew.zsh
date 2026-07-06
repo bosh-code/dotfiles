@@ -6,8 +6,9 @@
 # first check for brew, otherwise return early.
 [[ -x "$(command -v brew)" ]] || return
 
-export HOMEBREW_NO_ENV_HINTS=1
-export HOMEBREW_REQUIRE_TAP_TRUST=1
+# Brew environment variables are stored in .config/homebrew/brew.env
+# export HOMEBREW_NO_ENV_HINTS=1
+# export HOMEBREW_REQUIRE_TAP_TRUST=1
 
 # Add BREW_PREFIX in addition to HOMEBREW_PREFIX for some old aliases/functions that may expect it.
 export BREW_PREFIX="$(brew --prefix)"
@@ -24,11 +25,12 @@ for _brew_hook in "${ZSH_CONFIG_DIR}/hooks"/brew*.zsh(N); do
 done
 unset _brew_hook
 
+# Aliases
+# See also: ../functions/brew
+
 alias br="brew"
 alias bri="br install"
 alias brg="bri --global"
 alias bru="br update"
-alias brs="br search"
+alias brs="br search" 
 alias brl="br list"
-# fix this mistake I always make :(
-alias "brew isntall"="bri"
