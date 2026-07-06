@@ -3,8 +3,7 @@
 # k8s: Kubernetes
 #
 
-# first check for kubectl, otherwise return early.
-[[ -x "$(command -v kubectl)" ]] || return
+has kubectl || return
 
 alias k='kubectl'
 alias kgp='kubectl get pods'

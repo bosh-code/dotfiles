@@ -30,11 +30,6 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # Set essential options
 setopt EXTENDED_GLOB INTERACTIVE_COMMENTS
 
-# Local (machine specific) settings
-export ZSH_MISE_ENABLED=0
-export ZSH_FNOX_ENABLED=0
-export ZSH_PITCHFORK_ENABLED=0
-
 # Load overrides before functions and conf
 [ -r $HOME/.config/zsh/local.zsh ] \
 && . $HOME/.config/zsh/local.zsh

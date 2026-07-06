@@ -4,7 +4,7 @@
 #
 
 # Only run on macos
-[[ "$OSTYPE" == darwin* ]] || return
+is-macos || return
 
 alias vscode="code-insiders"
 alias vscodium="codium-insiders"

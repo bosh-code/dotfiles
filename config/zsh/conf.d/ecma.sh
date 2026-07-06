@@ -3,79 +3,51 @@
 # ecma: Everything bun, deno, node, js, ts related
 #
 
-# first check for node, otherwise return early.
-[[ -x "$(command -v node)" ]] || return
+if has node; then
+  #
+  # Aliases
+  #
 
-# lazy alias
-alias npx="pnpm dlx"
+  # npm
+  alias np="npm"
+  alias npi="np install"
+  alias npid="npi -D"
+  alias npig="npi -g"
+  alias npci="np ci"
+  alias npr="np run"
+  alias npd="npr dev"
+  alias npb="npr build"
+  alias npl="npr lint"
+  alias nplf="npl --fix"
+  alias npt="npr test"
 
-# npx skills add disable telemetry
-export DISABLE_TELEMETRY=1
+  # yarn
+  alias y="yarn"
+  alias ya="y add"
+  alias yad="ya -D"
+  alias yi="y install"
 
-# Next.js
-export NEXT_TELEMETRY_DISABLED=1
+  # pnpm
+  alias pn="pnpm"
+  alias pnx="pnpx"
+  alias pnr="pn run"
+  alias pna="pn add"
+  alias pnad="pna -D"
+  alias pnag="pna -g"
+  alias pni="pn install"
+  alias pnig="pni -g"
+  alias pnd="pnr dev"
+  alias pnb="pnr build"
+  alias pnl="pnr lint"
+  alias pnlf="pnl --fix"
+  alias pnt="pnr test"
+  alias pnup="pn update"
+  alias pnupg="pnup -g"
+  
+  export NEXT_TELEMETRY_DISABLED=1
+fi
 
-# # PNPM
-# export PNPM_HOME="$XDG_DATA_HOME/pnpm" # $HOME/.local/share/pnpm
-# export PATH="$PNPM_HOME/bin:$PATH"
-
-# # NPM
-# export NPM_HOME="$XDG_DATA_HOME/npm" # $HOME/.local/share/npm
-# export PATH="$NPM_HOME/bin:$PATH"
-# export NPM_CONFIG_USERCONFIG="$NPM_HOME/.npmrc"
-
-# Deno
-export DENO_DIR="$XDG_CACHE_HOME/deno"
-export DENO_NO_UPDATE_CHECK=1 # mise handles updates
-
-#
-# Aliases
-#
-
-# npm
-alias np="npm"
-alias npi="np install"
-alias npid="npi -D"
-alias npig="npi -g"
-alias npci="np ci"
-alias npr="np run"
-alias npd="npr dev"
-alias npb="npr build"
-alias npl="npr lint"
-alias nplf="npl --fix"
-alias npt="npr test"
-
-# yarn
-alias y="yarn"
-alias ya="y add"
-alias yad="ya -D"
-alias yi="y install"
-
-# pnpm
-alias pn="pnpm"
-alias pnr="pn run"
-alias pna="pn add"
-alias pnad="pna -D"
-alias pnag="pna -g"
-alias pni="pn install"
-alias pnig="pni -g"
-alias pnd="pnr dev"
-alias pnb="pnr build"
-alias pnl="pnr lint"
-alias pnlf="pnl --fix"
-alias pnt="pnr test"
-alias pnup="pn update"
-alias pnupg="pnup -g"
-
-# Handle pnpm versions with mise
-alias pnsu="mug pnpm@latest"
-
-# check for op
-[[ -x "$(command -v op)" ]] || return
-
-# 1password wrapped npm
-opnpm() { opwrap npm "$@"; }
-alias opnpi="opnpm install"
-alias opnpid="opwrap npm install -D"
-alias opnpig="opwrap npm install -g"
-alias opnpci="opwrap npm ci"
+if has deno; then
+  export DENO_DIR="$XDG_CACHE_HOME/deno"
+  export DENO_NO_UPDATE_CHECK=1 # mise handles updates
+fi

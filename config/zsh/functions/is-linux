@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-#
-# is-linux - Check if the current system is Linux.
-#
-
-[[ "$OSTYPE" == linux* ]] || [[ "$(uname -s)" == "Linux" ]]

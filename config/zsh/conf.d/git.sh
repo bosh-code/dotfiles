@@ -3,6 +3,8 @@
 # git - Git and GitHub 'hub' aliases and functions
 #
 
+has git || return
+
 # git add + commit -m
 gacmsg() {
   gaa && gcmsg "$1"
@@ -18,8 +20,21 @@ gacmsgp() {
   gacmsg "$1" && gp
 }
 
-[[ -x "$(command -v hub)" ]] || return
+if has hub; then
+  # alias for hub, git with exta GH stuff
+  eval "$(hub alias -s)"
+  alias gs="hub sync"
+fi
 
-# alias for hub, git with exta GH stuff
-eval "$(hub alias -s)"
-alias gs="hub sync"
+if is-enabled gst_on_empty; then
+  # Enable the 'git status on empty buffer' feature, which runs 'git status' when you hit `Enter` on an empty command line in a git repository.
+  accept-line-or-gst() {
+      if [[ -z $BUFFER ]]; then
+          BUFFER="gst"
+      fi
+      zle accept-line
+  }
+
+  zle -N accept-line-or-gst
+  bindkey '^M' accept-line-or-gst   # Enter key
+fi

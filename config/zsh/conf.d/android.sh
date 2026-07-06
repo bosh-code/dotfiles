@@ -3,12 +3,12 @@
 # android - Android SDK environment setup
 #
 
-# Only run on macos
-[[ "$OSTYPE" == macos* ]] || return
+is-enabled android && is-macos || return
 
-export ANDROID_HOME="$HOME/.android/sdk"
-export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export ANDROID_HOME="$HOME/.android"
+export ANDROID_AVD_HOME="$ANDROID_HOME/avd"
+export ANDROID_SDK_ROOT="$ANDROID_HOME/sdk"
 
-export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
-export PATH="$PATH:$ANDROID_HOME/emulator"
-export PATH="$PATH:$ANDROID_HOME/platform-tools"
+export PATH="$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
+export PATH="$PATH:$ANDROID_SDK_ROOT/emulator"
+export PATH="$PATH:$ANDROID_SDK_ROOT/platform-tools"

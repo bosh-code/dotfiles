@@ -3,8 +3,7 @@
 # op - 1Password CLI integration for shell env
 #
 
-# check for op
-[[ -x "$(command -v op)" ]] || return
+has op || return
 
 # source ~/.config/op/plugins.sh if the file exists
 if [[ -f "${XDG_DATA_HOME}/op/plugins.sh" ]]; then

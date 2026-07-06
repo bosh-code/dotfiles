@@ -3,7 +3,7 @@
 # direnv - direnv configuration
 #
 
-[[ -x "$(command -v direnv)" ]] || return
+has direnv || return
 
 export DIRENV_LOG_FORMAT=""
 export DIRENV_WARN_TIMEOUT=0

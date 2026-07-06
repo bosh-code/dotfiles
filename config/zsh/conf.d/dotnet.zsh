@@ -3,8 +3,7 @@
 # dotnet: Everything dotnet & nuget related
 #
 
-# first check for dotnet, otherwise return early.
-[[ -x "$(command -v dotnet)" ]] || return
+has dotnet && is-enabled dotnet || return
 
 # Add .NET Core SDK tools
 export PATH="$HOME/.dotnet/tools:$PATH"

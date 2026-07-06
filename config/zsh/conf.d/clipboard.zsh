@@ -4,7 +4,7 @@
 #
 
 # Only run on macos
-[[ "$OSTYPE" == darwin* ]] || return
+is-macos || return
 
 # copy silently
 alias -g C='| pbcopy'

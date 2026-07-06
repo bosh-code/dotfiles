@@ -6,10 +6,12 @@
 # has zoxide || return 1
 # eval "$(zoxide init zsh)"
 
-if ! (( $+commands[zoxide] )); then
-  echo "zoxide not found" >&2
-  return
-fi
+has zoxide || has __zoxide_z || return
+
+# if ! (( $+commands[zoxide] )); then
+#   echo "zoxide not found" >&2
+#   return
+# fi
 
 # https://github.com/ajeetdsouza/zoxide
 if (( $+functions[cached-eval] )); then

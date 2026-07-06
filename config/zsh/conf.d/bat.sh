@@ -4,7 +4,7 @@
 #
 
 # first check for bat, otherwise return early.
-[[ -x "$(command -v bat)" ]] || return
+has bat || return
 
 # Batman
 # https://github.com/eth-p/bat-extras/blob/master/doc/batman.md

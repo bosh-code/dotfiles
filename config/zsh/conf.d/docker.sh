@@ -3,7 +3,7 @@
 # docker - Docker command aliases
 #
 
-[[ -x "$(command -v docker)" ]] || return
+has docker && is-enabled docker || return
 
 # Core
 alias d="docker"

@@ -3,7 +3,7 @@
 # cowsay - Custom cowfile configuration
 #
 
-[[ -x "$(command -v cowsay)" ]] || return
+has cowsay || return
 
 export COWPATH="$HOME/.config/cowfiles"
 

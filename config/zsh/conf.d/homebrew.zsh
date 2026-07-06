@@ -3,11 +3,11 @@
 # homebrew - Homebrew environment and aliases
 #
 
-# first check for brew, otherwise return early.
-[[ -x "$(command -v brew)" ]] || return
+has brew && is-enabled homebrew || return
 
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_REQUIRE_TAP_TRUST=1
+export HOMEBREW_NO_ANALYTICS=1
 
 # Add BREW_PREFIX in addition to HOMEBREW_PREFIX for some old aliases/functions that may expect it.
 export BREW_PREFIX="$(brew --prefix)"

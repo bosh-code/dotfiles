@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-#
-# is-macos - Check if the current system is macOS.
-#
-
-[[ "$OSTYPE" == darwin* ]] || [[ "$(uname -s)" == "Darwin" ]]
