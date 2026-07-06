@@ -1,0 +1,30 @@
+[tools]
+bun = "latest"
+deno = "latest"
+editorconfig-checker = "latest"
+fnox = "latest"
+"github:presmihaylov/todocheck" = { version = "latest", asset_pattern = "todocheck-v*-linux-arm64" }
+"github:yaml-schema/yaml-schema" = "latest"
+go = "latest"
+hadolint = "latest"
+node = "lts"
+npm = "latest"
+pipx = "latest"
+pitchfork = "latest"
+pnpm = "latest"
+rust = "latest"
+shellcheck = "latest"
+typos = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ['node']
+
+trusted_config_paths = [
+    '~/Developer',
+    '~/Work'
+]
+
+env_file = '.env'
+
+# This key is never read by mise
+[_]

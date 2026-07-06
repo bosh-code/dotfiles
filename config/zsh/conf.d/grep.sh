@@ -5,6 +5,8 @@
 
 has rg || return
 
+# For bat aliases, see .config/zsh/conf.d/bat.sh
+# alias rg="batgrep"
 alias grep="rg"
 alias egrep="rg -e"
 alias fgrep="rg -F"

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#
+# brew - Homebrew wrapper to fix common mistakes.
+#
+
+if [[ "$1" == "isntall" ]]; then
+  shift
+  command brew install "$@"
+else
+  command brew "$@"
+fi

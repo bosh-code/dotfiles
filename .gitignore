@@ -18,6 +18,7 @@ config/*
 !config/ghostty/
 !config/git/
 !config/homebrew/
+!config/mise/
 !config/pitchfork/
 
 # btop
@@ -36,6 +37,12 @@ config/nushell/*
 !config/openlogi/
 config/openlogi/*
 !config/openlogi/config.toml
+
+# tabby
+!config/tabby/
+config/tabby/*
+!config/tabby/config.yaml
+!config/tabby/config.yaml.backup
 
 # xonsh
 !config/xonsh/

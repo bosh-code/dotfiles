@@ -1,5 +1,9 @@
 {
   "trustedtaps": [
+    "entireio/tap",
     "mikker/tap"
+  ],
+  "trustedcasks": [
+    "entireio/tap/entire"
   ]
 }
