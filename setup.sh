@@ -136,6 +136,9 @@ fi
 # local machine level zsh overrides (ignored in git)
 #cp "$DOTFILES/local.zsh-sample" "$DOTFILES/config/zsh/local.zsh"
 
+# symlink tabby config files
+# rm -rf "/Users/bosh/Library/Application Support/tabby"
+# ln -s "$DOTFILES/config/tabby" "/Users/bosh/Library/Application Support/tabby"
 
 # symlink xonsh
 #ln -s "$DOTFILES/.xonshrc" "$HOME/.xonshrc"
